@@ -1,37 +1,125 @@
 import React from 'react';
+import { FaUser, FaChartLine, FaExclamationTriangle, FaDollarSign, FaClock } from 'react-icons/fa';
 import './Dashboard.css';
 
-const ChurnMetrics = ({ metrics }) => {
-  const {
-    totalCustomers,
-    churnedCustomers,
-    churnRate,
-    averageTenure,
-    revenueImpact
-  } = metrics || {};
+const ChurnMetrics = ({ data, selectedMetric, timeRange, viewMode }) => {
+  const getMetricValue = (metric) => {
+    if (!data) return 0;
+    return data[metric] || 0;
+  };
+
+  const formatValue = (value, type) => {
+    switch (type) {
+      case 'percentage':
+        return `${value.toFixed(1)}%`;
+      case 'currency':
+        return `$${value.toLocaleString()}`;
+      case 'number':
+        return value.toLocaleString();
+      default:
+        return value;
+    }
+  };
+
+  const getMetricIcon = (metric) => {
+    switch (metric) {
+      case 'totalCustomers':
+        return <FaUser />;
+      case 'churnRate':
+        return <FaChartLine />;
+      case 'churnedCustomers':
+        return <FaExclamationTriangle />;
+      case 'revenueImpact':
+        return <FaDollarSign />;
+      case 'averageTenure':
+        return <FaClock />;
+      default:
+        return null;
+    }
+  };
+
+  const getMetricColor = (metric) => {
+    switch (metric) {
+      case 'totalCustomers':
+        return 'var(--primary-color)';
+      case 'churnRate':
+        return 'var(--warning-color)';
+      case 'churnedCustomers':
+        return 'var(--danger-color)';
+      case 'revenueImpact':
+        return 'var(--success-color)';
+      case 'averageTenure':
+        return 'var(--secondary-color)';
+      default:
+        return 'var(--text-light)';
+    }
+  };
+
+  const getMetricType = (metric) => {
+    switch (metric) {
+      case 'churnRate':
+        return 'percentage';
+      case 'revenueImpact':
+        return 'currency';
+      default:
+        return 'number';
+    }
+  };
+
+  const metrics = [
+    {
+      id: 'totalCustomers',
+      label: 'Total Customers',
+      value: getMetricValue('totalCustomers'),
+      type: 'number'
+    },
+    {
+      id: 'churnRate',
+      label: 'Churn Rate',
+      value: getMetricValue('churnRate'),
+      type: 'percentage'
+    },
+    {
+      id: 'churnedCustomers',
+      label: 'Churned Customers',
+      value: getMetricValue('churnedCustomers'),
+      type: 'number'
+    },
+    {
+      id: 'revenueImpact',
+      label: 'Revenue Impact',
+      value: getMetricValue('revenueImpact'),
+      type: 'currency'
+    },
+    {
+      id: 'averageTenure',
+      label: 'Average Tenure',
+      value: getMetricValue('averageTenure'),
+      type: 'number'
+    }
+  ];
+
+  const renderMetricCard = (metric) => (
+    <div
+      key={metric.id}
+      className="metric-card"
+      style={{ '--metric-color': getMetricColor(metric.id) }}
+    >
+      <div className="metric-icon">
+        {getMetricIcon(metric.id)}
+      </div>
+      <div className="metric-content">
+        <h3 className="metric-label">{metric.label}</h3>
+        <div className="metric-value">
+          {formatValue(metric.value, metric.type)}
+        </div>
+      </div>
+    </div>
+  );
 
   return (
-    <div className="metrics-container">
-      <div className="metric-card">
-        <h3>Total Customers</h3>
-        <p className="metric-value">{totalCustomers?.toLocaleString() || 0}</p>
-      </div>
-      <div className="metric-card">
-        <h3>Churned Customers</h3>
-        <p className="metric-value">{churnedCustomers?.toLocaleString() || 0}</p>
-      </div>
-      <div className="metric-card">
-        <h3>Churn Rate</h3>
-        <p className="metric-value">{churnRate?.toFixed(2) || 0}%</p>
-      </div>
-      <div className="metric-card">
-        <h3>Average Tenure</h3>
-        <p className="metric-value">{averageTenure?.toFixed(1) || 0} months</p>
-      </div>
-      <div className="metric-card">
-        <h3>Revenue Impact</h3>
-        <p className="metric-value">${revenueImpact?.toLocaleString() || 0}</p>
-      </div>
+    <div className={`metrics-grid ${viewMode}`}>
+      {metrics.map(renderMetricCard)}
     </div>
   );
 };
