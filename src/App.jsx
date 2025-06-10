@@ -1,7 +1,7 @@
 // App.jsx
 import React, { useState } from 'react';
 import FileUpload from './components/FileUpload/FileUpload';
-import ChurnDashboard from './components/Dashboard/ChurnDashboard';
+import ChurnDashboard from './components/ChurnDashboard/ChurnDashboard';
 import './App.css';
 
 function App() {
