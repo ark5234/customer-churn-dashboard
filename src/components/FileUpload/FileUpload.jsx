@@ -1,151 +1,99 @@
 // FileUpload.jsx
-import React, { useState, useRef } from 'react';
-import { useCSVReader } from 'react-papaparse';
-import { validateCSVFile } from './FileValidation';
-import { processChurnData } from '../../utils/dataProcessing';
+import React, { useState, useCallback } from 'react';
+import { useDropzone } from 'react-dropzone';
+import { validateCSVFile } from '../../utils/validation';
 import Button from '../shared/Button';
+import Card from '../shared/Card';
 import Loader from '../shared/Loader';
 import './FileUpload.css';
 
-const FileUpload = ({ onDataProcessed }) => {
-  const { CSVReader } = useCSVReader();
+const FileUpload = ({ onFileUpload, isLoading }) => {
   const [error, setError] = useState(null);
-  const [isProcessing, setIsProcessing] = useState(false);
-  const [uploadSuccess, setUploadSuccess] = useState(false);
-  const dragAreaRef = useRef(null);
+  const [success, setSuccess] = useState(null);
 
-  const handleUploadAccepted = async (results) => {
-    setIsProcessing(true);
+  const onDrop = useCallback((acceptedFiles) => {
     setError(null);
-    
-    try {
-      // Basic validation of the parsed data
-      if (!results || !results.data || !results.data.length) {
-        throw new Error('The CSV file appears to be empty.');
-      }
-      
-      // Process the data
-      const processedData = processChurnData(results.data);
-      
-      // Signal success
-      setUploadSuccess(true);
-      
-      // Pass the processed data up to parent component
-      onDataProcessed(processedData);
-    } catch (err) {
-      setError(err.message || 'An error occurred while processing the CSV file.');
-      setUploadSuccess(false);
-    } finally {
-      setIsProcessing(false);
-    }
-  };
+    setSuccess(null);
 
-  const handleError = (err) => {
-    setError(err.message || 'An error occurred while reading the CSV file.');
-    setUploadSuccess(false);
-    setIsProcessing(false);
-  };
+    const file = acceptedFiles[0];
+    const validation = validateCSVFile(file);
+
+    if (!validation.isValid) {
+      setError(validation.error);
+      return;
+    }
+
+    onFileUpload(file);
+    setSuccess('File uploaded successfully! Processing data...');
+  }, [onFileUpload]);
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDrop,
+    accept: {
+      'text/csv': ['.csv']
+    },
+    multiple: false
+  });
 
   return (
-    <div className="file-upload-container">
-      <h2>Upload Customer Data</h2>
-      <p className="upload-instruction">
-        Upload a CSV file containing customer data to analyze churn patterns.
+    <Card className="file-upload-container">
+      <h2 className="file-upload-title">Upload Customer Data</h2>
+      <p className="file-upload-description">
+        Upload your customer data in CSV format to analyze churn patterns and generate insights.
       </p>
-      
-      <CSVReader
-        onUploadAccepted={handleUploadAccepted}
-        onError={handleError}
-        config={{
-          header: true, // First row is headers
-          skipEmptyLines: true,
-          transformHeader: header => header.trim(),
-        }}
+
+      <div
+        {...getRootProps()}
+        className={`file-upload-dropzone ${isDragActive ? 'active' : ''}`}
       >
-        {({
-          getRootProps,
-          acceptedFile,
-          ProgressBar,
-          getRemoveFileProps,
-          Remove,
-        }) => (
-          <>
-            <div 
-              {...getRootProps()} 
-              className="csv-drop-area"
-              ref={dragAreaRef}
-            >
-              {acceptedFile ? (
-                <div className="accepted-file">
-                  <div className="file-info">
-                    <i className="file-icon">📄</i>
-                    <span className="file-name">{acceptedFile.name}</span>
-                  </div>
-                  <div className="progress-container">
-                    <ProgressBar />
-                  </div>
-                  <div {...getRemoveFileProps()} className="remove-button">
-                    <Remove />
-                  </div>
-                </div>
-              ) : (
-                <div className="drop-message">
-                  <i className="upload-icon">⬆️</i>
-                  <p>
-                    Drag and drop your CSV file here,<br />
-                    or click to browse
-                  </p>
-                  <Button 
-                    type="button" 
-                    label="Browse Files" 
-                    onClick={() => {
-                      // This will trigger the hidden file input
-                      if (dragAreaRef.current) {
-                        const input = dragAreaRef.current.querySelector('input');
-                        if (input) input.click();
-                      }
-                    }}
-                  />
-                </div>
-              )}
+        <input {...getInputProps()} />
+        {isLoading ? (
+          <div className="upload-loading">
+            <Loader size="large" />
+            <p>Processing your data...</p>
+          </div>
+        ) : (
+          <div className="upload-content">
+            <div className="upload-icon">
+              <svg
+                width="48"
+                height="48"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="17 8 12 3 7 8" />
+                <line x1="12" y1="3" x2="12" y2="15" />
+              </svg>
             </div>
-            
-            {isProcessing && (
-              <div className="processing-indicator">
-                <Loader />
-                <p>Processing your data...</p>
-              </div>
-            )}
-            
-            {error && (
-              <div className="error-message">
-                <p><strong>Error:</strong> {error}</p>
-              </div>
-            )}
-            
-            {uploadSuccess && !isProcessing && (
-              <div className="success-message">
-                <p>✅ File successfully processed! Dashboard updated with new data.</p>
-              </div>
-            )}
-            
-            <div className="csv-requirements">
-              <h3>CSV File Requirements:</h3>
-              <ul>
-                <li>Must include headers in the first row</li>
-                <li>Required columns: CustomerID, Tenure, MonthlyCharges, TotalCharges, Contract, InternetService, etc.</li>
-                <li>Maximum file size: 10MB</li>
-                <li>
-                  <a href="/sample_customer_churn_data.csv" download>
-                    Download a sample CSV template
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </>
+            <p className="upload-text">
+              {isDragActive
+                ? 'Drop the file here...'
+                : 'Drag and drop your CSV file here, or click to select'}
+            </p>
+            <Button variant="primary" className="upload-button">
+              Select File
+            </Button>
+          </div>
         )}
-      </CSVReader>
-    </div>
+      </div>
+
+      {error && <p className="error-message">{error}</p>}
+      {success && <p className="success-message">{success}</p>}
+
+      <div className="upload-instructions">
+        <h3>File Requirements:</h3>
+        <ul>
+          <li>File must be in CSV format</li>
+          <li>Maximum file size: 5MB</li>
+          <li>Required columns: CustomerID, Tenure, Contract, MonthlyCharges</li>
+        </ul>
+      </div>
+    </Card>
   );
 };
 
