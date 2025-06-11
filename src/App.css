@@ -72,20 +72,96 @@ body {
 
 .app-header {
   background-color: var(--surface-color);
-  padding: 1.5rem;
+  padding: 0.75rem 1.5rem;
   box-shadow: var(--card-shadow);
   position: sticky;
   top: 0;
   z-index: 100;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
+  border-bottom: 1px solid var(--border-color);
+  min-height: 70px;
+  width: 100%;
+}
+
+.header-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
 }
 
 .app-header h1 {
   margin: 0;
-  font-size: 1.8rem;
+  font-size: 1.4rem;
   color: var(--primary-color);
+  font-weight: 700;
+}
+
+.main-nav {
+  margin-top: 0.5rem;
+  width: 100%;
+}
+
+.main-nav ul {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  align-items: center;
+}
+
+.main-nav a,
+.main-nav .upload-link {
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-weight: 500;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+  font-size: 1.1rem;
+  position: relative;
+  display: inline-block;
+}
+
+.main-nav a.active,
+.main-nav .upload-link.active {
+  color: var(--primary-color);
+  background: var(--hover-color);
+  box-shadow: 0 2px 8px rgba(37,99,235,0.08);
+}
+
+.main-nav a:hover,
+.main-nav .upload-link:hover {
+  color: var(--primary-color);
+  background: var(--hover-color);
+}
+
+.main-nav .upload-link {
+  background: var(--primary-color);
+  color: #fff;
+  font-weight: 600;
+  margin-left: 1.5rem;
+  box-shadow: 0 2px 8px rgba(37,99,235,0.12);
+  border: none;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+}
+
+.main-nav .upload-link:hover,
+.main-nav .upload-link.active {
+  background: var(--primary-hover);
+  color: #fff;
+  box-shadow: 0 4px 16px rgba(37,99,235,0.18);
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }
 
 .app-description {
@@ -94,12 +170,12 @@ body {
 }
 
 .app-main {
-  display: grid;
-  grid-template-columns: 300px 1fr;
-  gap: 2rem;
-  padding: 2rem;
-  max-width: 1600px;
-  margin: 0 auto;
+  padding: 2rem 0;
+  width: 100vw;
+  min-height: calc(100vh - 200px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .app-sidebar {
@@ -109,7 +185,13 @@ body {
 }
 
 .app-content {
-  min-height: calc(100vh - 200px);
+  width: 100%;
+  max-width: 1200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
 }
 
 .app-footer {
@@ -146,23 +228,40 @@ body {
 /* Responsive Design */
 @media (max-width: 1024px) {
   .app-main {
-    grid-template-columns: 1fr;
-  }
-
-  .app-sidebar {
-    position: static;
+    padding: 1.5rem;
   }
 }
 
-@media (max-width: 768px) {
-  .app-header {
-    flex-direction: column;
-    text-align: center;
+@media (max-width: 900px) {
+  .main-nav ul {
     gap: 1rem;
   }
+  .header-content {
+    max-width: 100%;
+    padding: 0 1rem;
+  }
+}
 
-  .app-main {
-    padding: 1rem;
+@media (max-width: 600px) {
+  .main-nav ul {
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: flex-start;
+  }
+  .header-content {
+    padding: 0 0.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .main-nav ul {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .upload-container {
+    padding: 2rem 1rem;
   }
 }
 
@@ -270,68 +369,45 @@ body {
 }
 
 .upload-section {
-  background-color: var(--card-light);
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
   padding: 2rem;
-  border-radius: 1rem;
-  box-shadow: var(--shadow-light);
-  margin-bottom: 2rem;
-  border: 1px solid var(--border-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
 }
 
 .upload-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1.5rem;
-  padding: 2rem;
-  border: 2px dashed var(--border-light);
-  border-radius: 0.75rem;
-  background-color: var(--background-light);
+  background-color: var(--surface-color);
+  border: 2px dashed var(--border-color);
+  border-radius: 1rem;
+  padding: 4rem 3rem;
+  text-align: center;
   transition: all 0.3s ease;
+  cursor: pointer;
+  width: 100%;
+  box-shadow: var(--card-shadow);
 }
 
 .upload-container:hover {
   border-color: var(--primary-color);
-  background-color: rgba(79, 70, 229, 0.05);
-}
-
-.upload-icon {
-  font-size: 3rem;
-  color: var(--primary-color);
-}
-
-.upload-text {
-  text-align: center;
-  color: var(--text-secondary-light);
-}
-
-.upload-text h3 {
-  margin: 0 0 0.5rem;
-  color: var(--text-light);
-  font-size: 1.25rem;
-}
-
-.upload-text p {
-  margin: 0;
-  font-size: 0.875rem;
-}
-
-.file-input {
-  display: none;
+  background-color: var(--hover-color);
 }
 
 .upload-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
   background-color: var(--primary-color);
   color: white;
   padding: 0.75rem 1.5rem;
-  border: none;
   border-radius: 0.5rem;
-  cursor: pointer;
   font-weight: 500;
-  transition: all 0.2s ease;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-bottom: 1rem;
 }
 
 .upload-button:hover {
@@ -339,8 +415,28 @@ body {
   transform: translateY(-1px);
 }
 
-.upload-button:active {
-  transform: translateY(0);
+.upload-button svg {
+  width: 20px;
+  height: 20px;
+}
+
+.upload-text {
+  margin-top: 1rem;
+}
+
+.upload-text h3 {
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+  font-size: 1.25rem;
+}
+
+.upload-text p {
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+}
+
+.file-input {
+  display: none;
 }
 
 .file-info {
@@ -398,22 +494,111 @@ body {
   margin-top: 0.5rem;
 }
 
-@media (max-width: 768px) {
-  .main-content {
-    padding: 1rem;
-  }
-  
-  .upload-section {
-    padding: 1rem;
-  }
-  
-  .upload-container {
-    padding: 1.5rem;
-  }
+.navbar-flex {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  gap: 2rem;
 }
 
-@media (max-width: 480px) {
-  .metrics-grid {
-    grid-template-columns: 1fr;
+.navbar-logo h1 {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--primary-color);
+  margin: 0;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+}
+
+.main-nav ul {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  align-items: center;
+}
+
+.main-nav a {
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-weight: 500;
+  padding: 0.75rem 1.1rem;
+  border-radius: 0.5rem;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+  font-size: 1.08rem;
+  position: relative;
+  display: inline-block;
+}
+
+.main-nav a.active {
+  color: var(--primary-color);
+  background: var(--hover-color);
+  box-shadow: 0 2px 8px rgba(37,99,235,0.08);
+  font-weight: 700;
+  border-bottom: 2.5px solid var(--primary-color);
+}
+
+.main-nav a:hover {
+  color: var(--primary-color);
+  background: var(--hover-color);
+}
+
+.navbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+}
+
+.upload-link.cta {
+  background: var(--primary-color);
+  color: #fff !important;
+  font-weight: 700;
+  border-radius: 0.6rem;
+  padding: 0.75rem 1.4rem;
+  box-shadow: 0 2px 12px rgba(37,99,235,0.13);
+  border: none;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+  font-size: 1.08rem;
+  margin-left: 0;
+  outline: none;
+}
+.upload-link.cta:hover,
+.upload-link.cta.active {
+  background: var(--primary-hover);
+  color: #fff !important;
+  box-shadow: 0 4px 16px rgba(37,99,235,0.18);
+}
+
+@media (max-width: 1100px) {
+  .navbar-flex {
+    max-width: 100%;
+    gap: 1rem;
+  }
+  .main-nav ul {
+    gap: 1rem;
+  }
+}
+@media (max-width: 800px) {
+  .navbar-flex {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.5rem;
+    padding: 0 0.5rem;
+  }
+  .main-nav ul {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+  }
+  .navbar-logo h1 {
+    text-align: center;
+    font-size: 1.1rem;
+  }
+  .navbar-actions {
+    justify-content: center;
   }
 }

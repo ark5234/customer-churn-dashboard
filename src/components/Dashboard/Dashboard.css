@@ -435,3 +435,436 @@
   box-shadow: var(--card-shadow);
   z-index: 10;
 }
+
+.dashboard-hero {
+  background: var(--card-bg);
+  border-radius: 16px;
+  box-shadow: var(--card-shadow);
+  padding: 2.5rem 2rem;
+  margin-bottom: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.dashboard-hero-content {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 2.5rem;
+  flex-wrap: wrap;
+}
+
+.dashboard-hero-text {
+  flex: 2;
+  min-width: 260px;
+}
+
+.dashboard-hero-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--primary-color);
+  margin-bottom: 0.5rem;
+}
+
+.dashboard-hero-subtitle {
+  font-size: 1.15rem;
+  color: var(--text-secondary);
+  margin-bottom: 1.5rem;
+}
+
+.dashboard-hero-metrics {
+  flex: 3;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(160px, 1fr));
+  gap: 1.25rem;
+  align-items: start;
+  min-width: 320px;
+}
+
+.dashboard-hero-metric-card {
+  background: var(--surface-color);
+  border-radius: 12px;
+  box-shadow: var(--card-shadow);
+  padding: 1.25rem 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.dashboard-hero-metric-value {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--primary-color);
+}
+
+.dashboard-hero-metric-label {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+}
+
+@media (max-width: 900px) {
+  .dashboard-hero-content {
+    flex-direction: column;
+    gap: 2rem;
+  }
+  .dashboard-hero-metrics {
+    grid-template-columns: 1fr 1fr;
+    min-width: 0;
+  }
+}
+
+@media (max-width: 600px) {
+  .dashboard-hero {
+    padding: 1.2rem 0.5rem;
+  }
+  .dashboard-hero-title {
+    font-size: 1.5rem;
+  }
+  .dashboard-hero-metrics {
+    grid-template-columns: 1fr;
+  }
+}
+
+.churn-analysis-hero {
+  background: var(--card-bg);
+  border-radius: 16px;
+  box-shadow: var(--card-shadow);
+  padding: 2.5rem 2rem;
+  margin-bottom: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  align-items: center;
+}
+
+.churn-analysis-header {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.churn-analysis-header h1 {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: var(--primary-color);
+  margin-bottom: 0.5rem;
+}
+
+.churn-analysis-subtitle {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+}
+
+.churn-analysis-metrics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.churn-metric-card {
+  background: var(--surface-color);
+  border-radius: 12px;
+  box-shadow: var(--card-shadow);
+  padding: 1.5rem 1.25rem;
+  min-width: 140px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.churn-metric-value {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--primary-color);
+}
+
+.churn-metric-label {
+  font-size: 1rem;
+  color: var(--text-secondary);
+}
+
+.churn-analysis-visual {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 1.5rem;
+}
+
+.churn-pie-chart {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  margin-bottom: 0.5rem;
+}
+
+.churn-pie-label {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 1rem;
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+@media (max-width: 700px) {
+  .churn-analysis-metrics {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+  }
+  .churn-analysis-hero {
+    padding: 1.2rem 0.5rem;
+  }
+  .churn-analysis-header h1 {
+    font-size: 1.3rem;
+  }
+}
+
+.churn-metrics-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: center;
+  margin-bottom: 2.5rem;
+}
+
+.churn-metric-card {
+  background: var(--surface-color);
+  border-radius: 12px;
+  box-shadow: var(--card-shadow);
+  padding: 1.5rem 1.25rem;
+  min-width: 150px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  position: relative;
+}
+.churn-metric-card.highlight {
+  border: 2px solid var(--primary-color);
+  background: var(--hover-color);
+}
+.churn-metric-icon {
+  font-size: 2rem;
+  color: var(--primary-color);
+  margin-bottom: 0.3rem;
+}
+
+.churn-analysis-visuals {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2.5rem;
+  justify-content: center;
+  align-items: flex-start;
+  margin-bottom: 2.5rem;
+}
+
+.churn-donut-chart {
+  position: relative;
+  width: 140px;
+  height: 140px;
+  margin-bottom: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.churn-donut-label {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 1.2rem;
+  color: var(--primary-color);
+  font-weight: 700;
+  text-align: center;
+}
+
+.churn-contract-bar {
+  min-width: 260px;
+  max-width: 350px;
+  background: var(--surface-color);
+  border-radius: 12px;
+  box-shadow: var(--card-shadow);
+  padding: 1.2rem 1rem;
+}
+.churn-contract-bar h3 {
+  font-size: 1.1rem;
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.contract-bar-chart {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+.contract-bar-group {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+.contract-bar-label {
+  min-width: 90px;
+  font-size: 0.98rem;
+  color: var(--text-secondary);
+}
+.contract-bar-outer {
+  background: var(--hover-color);
+  border-radius: 6px;
+  width: 90px;
+  height: 14px;
+  overflow: hidden;
+  margin-right: 0.5rem;
+}
+.contract-bar-inner {
+  background: var(--primary-color);
+  height: 100%;
+  border-radius: 6px 0 0 6px;
+  transition: width 0.4s;
+}
+.contract-bar-value {
+  font-size: 0.98rem;
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+.churn-key-insights {
+  background: var(--surface-color);
+  border-radius: 12px;
+  box-shadow: var(--card-shadow);
+  padding: 1.2rem 1rem;
+  margin-bottom: 2rem;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.churn-key-insights h3 {
+  color: var(--primary-color);
+  font-size: 1.1rem;
+  margin-bottom: 0.7rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.churn-key-insights ul {
+  margin: 0;
+  padding-left: 1.2rem;
+  color: var(--text-secondary);
+  font-size: 1rem;
+}
+.churn-key-insights li {
+  margin-bottom: 0.5rem;
+}
+
+.churn-top-factors {
+  background: var(--surface-color);
+  border-radius: 12px;
+  box-shadow: var(--card-shadow);
+  padding: 1.2rem 1rem;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.churn-top-factors h3 {
+  color: var(--primary-color);
+  font-size: 1.1rem;
+  margin-bottom: 0.7rem;
+}
+.top-factors-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+.top-factor-item {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+.top-factor-bar {
+  background: var(--primary-color);
+  height: 8px;
+  border-radius: 4px;
+  flex: 1;
+  margin-right: 0.5rem;
+}
+.top-factor-value {
+  font-size: 0.98rem;
+  color: var(--primary-color);
+  font-weight: 600;
+}
+@media (max-width: 700px) {
+  .churn-metrics-grid, .churn-analysis-visuals {
+    flex-direction: column;
+    gap: 1.2rem;
+    align-items: center;
+  }
+  .churn-contract-bar, .churn-key-insights, .churn-top-factors {
+    max-width: 100%;
+  }
+}
+
+.analytics-visuals {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2.5rem;
+  justify-content: center;
+  align-items: flex-start;
+  margin-bottom: 2.5rem;
+}
+.analytics-bar-chart, .analytics-pie-chart {
+  min-width: 260px;
+  max-width: 350px;
+  background: var(--surface-color);
+  border-radius: 12px;
+  box-shadow: var(--card-shadow);
+  padding: 1.2rem 1rem;
+}
+.analytics-bar-chart h3, .analytics-pie-chart h3 {
+  font-size: 1.1rem;
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.analytics-pie-legend {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 0.7rem;
+}
+.pie-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.98rem;
+  color: var(--text-secondary);
+}
+.pie-legend-color {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 0.3rem;
+}
+@media (max-width: 700px) {
+  .analytics-visuals {
+    flex-direction: column;
+    gap: 1.2rem;
+    align-items: center;
+  }
+  .analytics-bar-chart, .analytics-pie-chart {
+    max-width: 100%;
+  }
+}
