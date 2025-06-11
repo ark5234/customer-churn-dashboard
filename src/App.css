@@ -532,8 +532,8 @@ body {
   font-size: 1.08rem;
   position: relative;
   display: inline-block;
-}
-
+  }
+  
 .main-nav a.active {
   color: var(--primary-color);
   background: var(--hover-color);
@@ -551,8 +551,8 @@ body {
   display: flex;
   align-items: center;
   gap: 1.2rem;
-}
-
+  }
+  
 .upload-link.cta {
   background: var(--primary-color);
   color: #fff !important;

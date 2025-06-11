@@ -62,68 +62,93 @@ const ChurnDashboard = () => {
   ];
 
   return (
-    <div className="dashboard-container churn-analysis-hero">
-      <div className="churn-analysis-header">
-        <h1>Churn Analysis Overview</h1>
-        <p className="churn-analysis-subtitle">
-          A quick summary of your customer churn and key business metrics.
-        </p>
-      </div>
-      <div className="churn-metrics-grid">
-        <div className="churn-metric-card highlight"><FaUsers className="churn-metric-icon" /><div className="churn-metric-value">{totalCustomers}</div><div className="churn-metric-label">Total Customers</div></div>
-        <div className="churn-metric-card"><FaUserTimes className="churn-metric-icon" /><div className="churn-metric-value">{churned}</div><div className="churn-metric-label">Churned</div></div>
-        <div className="churn-metric-card"><FaPercentage className="churn-metric-icon" /><div className="churn-metric-value">{churnRate}%</div><div className="churn-metric-label">Churn Rate</div></div>
-        <div className="churn-metric-card"><FaDollarSign className="churn-metric-icon" /><div className="churn-metric-value">${avgMonthlyCharges}</div><div className="churn-metric-label">Avg. Monthly Charges</div></div>
-        <div className="churn-metric-card"><FaClock className="churn-metric-icon" /><div className="churn-metric-value">{avgTenure} mo</div><div className="churn-metric-label">Avg. Tenure</div></div>
-      </div>
-      <div className="churn-analysis-visuals">
-        <div className="churn-donut-chart">
-          <svg width="140" height="140" viewBox="0 0 140 140">
-            <circle r="60" cx="70" cy="70" fill="#e5e7eb" />
-            <circle
-              r="60"
-              cx="70"
-              cy="70"
-              fill="transparent"
-              stroke="#2563eb"
-              strokeWidth="18"
-              strokeDasharray={`${(churned / totalCustomers) * 377}, 377`}
-              transform="rotate(-90 70 70)"
-            />
-          </svg>
-          <div className="churn-donut-label">{churnRate}%<br />Churned</div>
-        </div>
-        <div className="churn-contract-bar">
-          <h3><FaChartBar /> Churn by Contract Type</h3>
-          <div className="contract-bar-chart">
-            {churnByContract.map(c => (
-              <div key={c.type} className="contract-bar-group">
-                <div className="contract-bar-label">{c.type}</div>
-                <div className="contract-bar-outer">
-                  <div className="contract-bar-inner" style={{ width: `${c.churnRate}%` }}></div>
-                </div>
-                <div className="contract-bar-value">{c.churnRate}%</div>
-              </div>
-            ))}
+    <div className="dashboard-container">
+      {/* Data Cards Section */}
+      <div className="dashboard-section">
+        <div className="churn-metrics-grid">
+          <div className="churn-metric-card highlight">
+            <FaUsers className="churn-metric-icon" />
+            <div className="churn-metric-value">{totalCustomers}</div>
+            <div className="churn-metric-label">Total Customers</div>
+          </div>
+          <div className="churn-metric-card">
+            <FaUserTimes className="churn-metric-icon" />
+            <div className="churn-metric-value">{churned}</div>
+            <div className="churn-metric-label">Churned</div>
+          </div>
+          <div className="churn-metric-card">
+            <FaPercentage className="churn-metric-icon" />
+            <div className="churn-metric-value">{churnRate}%</div>
+            <div className="churn-metric-label">Churn Rate</div>
+          </div>
+          <div className="churn-metric-card">
+            <FaDollarSign className="churn-metric-icon" />
+            <div className="churn-metric-value">${avgMonthlyCharges}</div>
+            <div className="churn-metric-label">Avg. Monthly Charges</div>
+          </div>
+          <div className="churn-metric-card">
+            <FaClock className="churn-metric-icon" />
+            <div className="churn-metric-value">{avgTenure} mo</div>
+            <div className="churn-metric-label">Avg. Tenure</div>
           </div>
         </div>
       </div>
-      <div className="churn-key-insights">
-        <h3><FaChartPie /> Key Insights</h3>
-        <ul>
-          {insights.map((insight, i) => <li key={i}>{insight}</li>)}
-        </ul>
-      </div>
-      <div className="churn-top-factors">
-        <h3>Top Factors Impacting Churn</h3>
-        <div className="top-factors-list">
-          {topFactors.map(f => (
-            <div key={f.label} className="top-factor-item">
-              <span>{f.label}</span>
-              <div className="top-factor-bar" style={{ width: `${f.value}%` }}></div>
-              <span className="top-factor-value">{f.value}%</span>
+
+      {/* Graphs Section */}
+      <div className="dashboard-section">
+        <div className="churn-analysis-visuals">
+          <div className="churn-donut-chart">
+            <svg width="140" height="140" viewBox="0 0 140 140">
+              <circle r="60" cx="70" cy="70" fill="#e5e7eb" />
+              <circle
+                r="60"
+                cx="70"
+                cy="70"
+                fill="transparent"
+                stroke="#2563eb"
+                strokeWidth="18"
+                strokeDasharray={`${(churned / totalCustomers) * 377}, 377`}
+                transform="rotate(-90 70 70)"
+              />
+            </svg>
+            <div className="churn-donut-label">{churnRate}%<br />Churned</div>
+          </div>
+          <div className="churn-contract-bar">
+            <h3><FaChartBar /> Churn by Contract Type</h3>
+            <div className="contract-bar-chart">
+              {churnByContract.map(c => (
+                <div key={c.type} className="contract-bar-group">
+                  <div className="contract-bar-label">{c.type}</div>
+                  <div className="contract-bar-outer">
+                    <div className="contract-bar-inner" style={{ width: `${c.churnRate}%` }}></div>
+                  </div>
+                  <div className="contract-bar-value">{c.churnRate}%</div>
+                </div>
+              ))}
             </div>
-          ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Insights Section */}
+      <div className="dashboard-section">
+        <div className="churn-key-insights">
+          <h3><FaChartPie /> Key Insights</h3>
+          <ul>
+            {insights.map((insight, i) => <li key={i}>{insight}</li>)}
+          </ul>
+        </div>
+        <div className="churn-top-factors">
+          <h3>Top Factors Impacting Churn</h3>
+          <div className="top-factors-list">
+            {topFactors.map(f => (
+              <div key={f.label} className="top-factor-item">
+                <span>{f.label}</span>
+                <div className="top-factor-bar" style={{ width: `${f.value}%` }}></div>
+                <span className="top-factor-value">{f.value}%</span>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>
