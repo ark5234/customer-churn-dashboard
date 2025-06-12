@@ -1,6 +1,17 @@
 import React from 'react';
 import { FaUser, FaChartLine, FaExclamationTriangle, FaDollarSign, FaClock } from 'react-icons/fa';
-import './Dashboard.css';
+import '../../App.css';
+
+// DashboardCard component inlined here
+const DashboardCard = ({ icon, value, label, color = 'cyan' }) => (
+  <div className="dashboard-card" style={{ '--card-accent': `var(--${color}-color)` }}>
+    <div className="card-icon">{icon}</div>
+    <div className="card-content">
+      <h4 className="card-value">{value}</h4>
+      <p className="card-label">{label}</p>
+    </div>
+  </div>
+);
 
 const ChurnMetrics = ({ data, selectedMetric, timeRange, viewMode }) => {
   const getMetricValue = (metric) => {

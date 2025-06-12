@@ -2,8 +2,100 @@
 import React, { useContext } from 'react';
 import { DataContext } from '../../App';
 import { useNavigate } from 'react-router-dom';
-import { FaUsers, FaUserTimes, FaPercentage, FaDollarSign, FaClock, FaChartPie, FaChartBar } from 'react-icons/fa';
-import './Dashboard.css';
+import { FaUsers, FaUserTimes, FaPercentage, FaDollarSign, FaClock, FaChartPie, FaChartBar, FaArrowUp, FaArrowDown, FaBullseye, FaBolt } from 'react-icons/fa';
+import '../../App.css';
+import DashboardHero from './DashboardHero';
+
+// Inlined ChurnInsights component
+const ChurnInsights = ({ metrics }) => {
+  const churnInsights = [
+    {
+      label: 'Avg Monthly Charges (Churned)',
+      value: `$${metrics.monthlyChargesChurned}`,
+      trend: 'up'
+    },
+    {
+      label: 'Avg Monthly Charges (Retained)',
+      value: `$${metrics.monthlyChargesRetained}`,
+      trend: 'down'
+    },
+    {
+      label: 'Avg Tenure (Churned)',
+      value: `${metrics.tenureChurned} months`,
+      trend: 'down'
+    },
+    {
+      label: 'Avg Tenure (Retained)',
+      value: `${metrics.tenureRetained} months`,
+      trend: 'up'
+    }
+  ];
+  return (
+    <div className="churn-insights-grid">
+      {churnInsights.map((insight, index) => (
+        <div key={index} className={`churn-insight-card ${insight.trend}`}>
+          <h4>{insight.label}</h4>
+          <div className="insight-value">
+            {insight.trend === 'up' ? (
+              <FaArrowUp className="trend-up" />
+            ) : (
+              <FaArrowDown className="trend-down" />
+            )}
+            {insight.value}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+// Inlined MainMetrics component
+const MainMetrics = ({ metrics }) => {
+  const mainMetrics = [
+    {
+      id: 'customers',
+      label: 'Total Customers',
+      value: metrics.totalCustomers?.toLocaleString?.() ?? metrics.totalCustomers,
+      icon: <FaUsers />, color: 'var(--primary-color)'
+    },
+    {
+      id: 'churnRate',
+      label: 'Churn Rate',
+      value: `${metrics.churnRate}%`,
+      icon: <FaChartLine />, color: 'var(--warning-color)'
+    },
+    {
+      id: 'accuracy',
+      label: 'Model Accuracy',
+      value: `${metrics.modelAccuracy ?? '--'}%`,
+      icon: <FaBullseye />, color: 'var(--success-color)'
+    },
+    {
+      id: 'performance',
+      label: 'Runtime Improvement',
+      value: `${metrics.runtimeImprovement ?? '--'}%`,
+      icon: <FaBolt />, color: 'var(--secondary-color)'
+    }
+  ];
+  return (
+    <div className="main-metrics-grid">
+      {mainMetrics.map(metric => (
+        <div
+          key={metric.id}
+          className="main-metric-card"
+          style={{ '--metric-color': metric.color }}
+          data-tooltip={`View details about ${metric.label}`}
+        >
+          <div className="metric-icon">{metric.icon}</div>
+          <div className="metric-content">
+            <div className="metric-value">{metric.value}</div>
+            <div className="metric-label">{metric.label}</div>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+};
 
 const ChurnDashboard = () => {
   const { data } = useContext(DataContext);
@@ -63,37 +155,12 @@ const ChurnDashboard = () => {
 
   return (
     <div className="dashboard-container">
-      {/* Data Cards Section */}
-      <div className="dashboard-section">
-        <div className="churn-metrics-grid">
-          <div className="churn-metric-card highlight">
-            <FaUsers className="churn-metric-icon" />
-            <div className="churn-metric-value">{totalCustomers}</div>
-            <div className="churn-metric-label">Total Customers</div>
-          </div>
-          <div className="churn-metric-card">
-            <FaUserTimes className="churn-metric-icon" />
-            <div className="churn-metric-value">{churned}</div>
-            <div className="churn-metric-label">Churned</div>
-          </div>
-          <div className="churn-metric-card">
-            <FaPercentage className="churn-metric-icon" />
-            <div className="churn-metric-value">{churnRate}%</div>
-            <div className="churn-metric-label">Churn Rate</div>
-          </div>
-          <div className="churn-metric-card">
-            <FaDollarSign className="churn-metric-icon" />
-            <div className="churn-metric-value">${avgMonthlyCharges}</div>
-            <div className="churn-metric-label">Avg. Monthly Charges</div>
-          </div>
-          <div className="churn-metric-card">
-            <FaClock className="churn-metric-icon" />
-            <div className="churn-metric-value">{avgTenure} mo</div>
-            <div className="churn-metric-label">Avg. Tenure</div>
-          </div>
-        </div>
-      </div>
-
+      <DashboardHero
+        totalCustomers={totalCustomers}
+        churned={churned}
+        churnRate={churnRate}
+        avgMonthlyCharges={avgMonthlyCharges}
+      />
       {/* Graphs Section */}
       <div className="dashboard-section">
         <div className="churn-analysis-visuals">

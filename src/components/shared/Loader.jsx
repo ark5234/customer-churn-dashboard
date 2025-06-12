@@ -1,5 +1,5 @@
 import React from 'react';
-import './Loader.css';
+import '../../App.css';
 
 const Loader = ({ size = 'medium', color = 'primary' }) => {
   return (

@@ -5,7 +5,7 @@ import { validateCSVFile } from '../../utils/validation';
 import Button from '../shared/Button';
 import Card from '../shared/Card';
 import Loader from '../shared/Loader';
-import './FileUpload.css';
+import '../../App.css';
 
 const FileUpload = ({ onFileUpload, isLoading }) => {
   const [error, setError] = useState(null);
