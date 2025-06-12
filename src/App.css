@@ -854,8 +854,8 @@
   margin-bottom: 0.5rem;
   padding-left: 1.5rem;
   position: relative;
-}
-
+  }
+  
 .upload-instructions li::before {
   content: "•";
   color: var(--primary-color);
