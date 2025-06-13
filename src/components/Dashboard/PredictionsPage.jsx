@@ -1,47 +1,45 @@
-import React, { useContext } from 'react';
-import { DataContext } from '../../App';
+import React from 'react';
+import { useData } from '../../context/DataContext';
+import { FaChartLine } from 'react-icons/fa';
 
 const PredictionsPage = () => {
-  const { data } = useContext(DataContext);
+  const { data, isLoading, error } = useData();
+
+  if (isLoading) {
+    return <div className="loading">Loading...</div>;
+  }
+
+  if (error) {
+    return <div className="error">{error}</div>;
+  }
+
+  if (!data) {
+    return (
+      <div className="no-data">
+        <h2>No Data Available</h2>
+        <p>Please upload a CSV file to view predictions.</p>
+      </div>
+    );
+  }
+
   return (
-    <div className="dashboard-container">
-      <h2>Predictions</h2>
-      <div className="tab-content">
-        <div className="prediction-form">
-          <h3>Live Churn Prediction</h3>
-          <form className="customer-input-form">
-            <div className="form-group">
-              <label>Monthly Charges ($)</label>
-              <input type="number" placeholder="Enter monthly charges" />
+    <div className="predictions-page">
+      <h1>Churn Predictions</h1>
+      <div className="predictions-content">
+        <div className="prediction-metrics">
+          <div className="metric-card">
+            <div className="metric-icon">
+              <FaChartLine />
             </div>
-            <div className="form-group">
-              <label>Tenure (months)</label>
-              <input type="number" placeholder="Enter tenure in months" />
+            <div className="metric-content">
+              <h3>Model Accuracy</h3>
+              <p className="metric-value">85%</p>
             </div>
-            <div className="form-group">
-              <label>Contract Type</label>
-              <select>
-                <option>Month-to-month</option>
-                <option>One year</option>
-                <option>Two year</option>
-              </select>
-            </div>
-            <div className="form-group">
-              <label>Total Charges ($)</label>
-              <input type="number" placeholder="Enter total charges" />
-            </div>
-            <button type="submit" className="predict-button">Predict Churn Risk</button>
-          </form>
+          </div>
         </div>
-        <div className="prediction-results">
-          <h3>Churn Risk Assessment</h3>
-          <div className="risk-assessment">
-            <p className="placeholder-text">-- Enter customer data to predict churn risk</p>
-          </div>
-          <h3>Retention Recommendations</h3>
-          <div className="recommendations">
-            <p className="placeholder-text">Complete the form to get personalized recommendations</p>
-          </div>
+        <div className="predictions-table">
+          <h2>Recent Predictions</h2>
+          <p>Prediction table will be displayed here</p>
         </div>
       </div>
     </div>

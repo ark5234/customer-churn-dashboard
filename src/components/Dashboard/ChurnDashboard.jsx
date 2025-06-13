@@ -1,8 +1,8 @@
 // ChurnDashboard.jsx
-import React, { useContext } from 'react';
-import { DataContext } from '../../App';
+import React from 'react';
+import { useData } from '../../context/DataContext';
 import { useNavigate } from 'react-router-dom';
-import { FaUsers, FaUserTimes, FaPercentage, FaDollarSign, FaClock, FaChartPie, FaChartBar, FaArrowUp, FaArrowDown, FaBullseye, FaBolt } from 'react-icons/fa';
+import { FaUsers, FaUserTimes, FaPercentage, FaDollarSign, FaClock, FaChartPie, FaChartBar, FaArrowUp, FaArrowDown, FaBullseye, FaBolt, FaChartLine } from 'react-icons/fa';
 import '../../App.css';
 import DashboardHero from './DashboardHero';
 
@@ -98,7 +98,7 @@ const MainMetrics = ({ metrics }) => {
 };
 
 const ChurnDashboard = () => {
-  const { data } = useContext(DataContext);
+  const { data } = useData();
   const navigate = useNavigate();
 
   if (!data || data.length === 0) {
