@@ -14,13 +14,12 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: {
-          vendor: ['react', 'react-dom'],
-          csv: ['papaparse', 'react-dropzone']
+          vendor: ['react', 'react-dom']
         }
       }
     }
   },
   optimizeDeps: {
-    include: ['react', 'react-dom', 'papaparse', 'react-dropzone']
+    include: ['react', 'react-dom', 'papaparse']
   }
 })
