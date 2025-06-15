@@ -15,13 +15,12 @@ export default defineConfig({
       output: {
         manualChunks: {
           vendor: ['react', 'react-dom'],
-          charts: ['chart.js', 'react-chartjs-2'],
           csv: ['papaparse', 'react-dropzone']
         }
       }
     }
   },
   optimizeDeps: {
-    include: ['react', 'react-dom', 'chart.js', 'react-chartjs-2', 'papaparse', 'react-dropzone']
+    include: ['react', 'react-dom', 'papaparse', 'react-dropzone']
   }
 })
