@@ -1,5 +1,6 @@
 // App.jsx
 import React, { useState } from 'react';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
 import { FaChartLine, FaUpload, FaBars, FaTimes, FaMoon, FaSun } from 'react-icons/fa';
 import ChurnDashboard from './components/Dashboard/ChurnDashboard';
