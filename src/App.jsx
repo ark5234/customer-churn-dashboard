@@ -10,6 +10,8 @@ import PerformancePage from './components/Dashboard/PerformancePage';
 import FileUpload from './components/FileUpload/FileUpload';
 import { DataProvider } from './context/DataContext';
 import './App.css';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
 
 const Navigation = () => {
   const location = useLocation();
@@ -93,15 +95,42 @@ const Navigation = () => {
   );
 };
 
+const theme = createTheme({
+  palette: {
+    mode: 'light',
+    primary: {
+      main: '#1976d2',
+    },
+    secondary: {
+      main: '#dc004e',
+    },
+    background: {
+      default: '#f5f5f5',
+    },
+  },
+  typography: {
+    fontFamily: [
+      '-apple-system',
+      'BlinkMacSystemFont',
+      '"Segoe UI"',
+      'Roboto',
+      '"Helvetica Neue"',
+      'Arial',
+      'sans-serif',
+    ].join(','),
+  },
+});
+
 function App() {
   return (
-    <Router>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
       <DataProvider>
-        <div className="app-container">
+        <Router>
           <Navigation />
-        </div>
+        </Router>
       </DataProvider>
-    </Router>
+    </ThemeProvider>
   );
 }
 

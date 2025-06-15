@@ -2,6 +2,19 @@ import React from 'react';
 import { useData } from '../../context/DataContext';
 import { FaChartLine, FaUsers, FaMoneyBillWave, FaClock } from 'react-icons/fa';
 import './AnalyticsPage.css';
+// Import new analysis components
+import ChurnSummary from '../Analysis/sections/ChurnSummary';
+import FeatureImpact from '../Analysis/sections/FeatureImpact';
+import DemographicBreakdown from '../Analysis/sections/DemographicBreakdown';
+import ServicesAnalysis from '../Analysis/sections/ServicesAnalysis';
+import CommunicationImpact from '../Analysis/sections/CommunicationImpact';
+import TenureAnalysis from '../Analysis/sections/TenureAnalysis';
+import BillingAnalysis from '../Analysis/sections/BillingAnalysis';
+import PaymentAnalysis from '../Analysis/sections/PaymentAnalysis';
+import ContractAnalysis from '../Analysis/sections/ContractAnalysis';
+import PredictiveDashboard from '../Analysis/sections/PredictiveDashboard';
+import SegmentExplorer from '../Analysis/sections/SegmentExplorer';
+import InsightsSummary from '../Analysis/sections/InsightsSummary';
 
 const AnalyticsPage = () => {
   const { data, isLoading, error } = useData();
@@ -78,17 +91,40 @@ const AnalyticsPage = () => {
 
       <div className="analytics-sections">
         <div className="analytics-section">
-          <h2>Churn Analysis</h2>
-          <div className="chart-container">
-            {/* Add your chart component here */}
-          </div>
+          <ChurnSummary />
         </div>
-
         <div className="analytics-section">
-          <h2>Customer Distribution</h2>
-          <div className="chart-container">
-            {/* Add your chart component here */}
-          </div>
+          <FeatureImpact />
+        </div>
+        <div className="analytics-section">
+          <DemographicBreakdown />
+        </div>
+        <div className="analytics-section">
+          <ServicesAnalysis />
+        </div>
+        <div className="analytics-section">
+          <CommunicationImpact />
+        </div>
+        <div className="analytics-section">
+          <TenureAnalysis />
+        </div>
+        <div className="analytics-section">
+          <BillingAnalysis />
+        </div>
+        <div className="analytics-section">
+          <PaymentAnalysis />
+        </div>
+        <div className="analytics-section">
+          <ContractAnalysis />
+        </div>
+        <div className="analytics-section">
+          <PredictiveDashboard />
+        </div>
+        <div className="analytics-section">
+          <SegmentExplorer />
+        </div>
+        <div className="analytics-section">
+          <InsightsSummary />
         </div>
       </div>
     </div>
