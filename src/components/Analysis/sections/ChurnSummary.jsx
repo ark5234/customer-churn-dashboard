@@ -111,8 +111,8 @@ const ChurnSummary = () => {
                 Contract Breakdown
               </Typography>
               {data.contractBreakdown?.map((contract) => (
-                <Typography key={contract.Contract}>
-                  {contract.Contract}: {contract.Churn?.toFixed(1)}% churn rate
+                <Typography key={contract.Contract || contract.contract}>
+                  {(contract.Contract || contract.contract)}: {(contract.Churn ?? contract.churn)?.toFixed(1)}% churn rate
                 </Typography>
               ))}
             </Box>

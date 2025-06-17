@@ -12,7 +12,7 @@ import TenureAnalysis from '../Analysis/sections/TenureAnalysis';
 import BillingAnalysis from '../Analysis/sections/BillingAnalysis';
 import PaymentAnalysis from '../Analysis/sections/PaymentAnalysis';
 import ContractAnalysis from '../Analysis/sections/ContractAnalysis';
-import PredictiveDashboard from '../Analysis/sections/PredictiveDashboard';
+import PDFDownload from '../Analysis/sections/PredictiveDashboard';
 import SegmentExplorer from '../Analysis/sections/SegmentExplorer';
 import InsightsSummary from '../Analysis/sections/InsightsSummary';
 
@@ -45,7 +45,10 @@ const AnalyticsPage = () => {
 
   return (
     <div className="analytics-page">
-      <h1>Analytics Dashboard</h1>
+      <div className="analytics-header">
+        <h1>Analytics Dashboard</h1>
+        <PDFDownload />
+      </div>
       
       <div className="metrics-grid">
         <div className="metric-card">
@@ -116,9 +119,6 @@ const AnalyticsPage = () => {
         </div>
         <div className="analytics-section">
           <ContractAnalysis />
-        </div>
-        <div className="analytics-section">
-          <PredictiveDashboard />
         </div>
         <div className="analytics-section">
           <SegmentExplorer />
