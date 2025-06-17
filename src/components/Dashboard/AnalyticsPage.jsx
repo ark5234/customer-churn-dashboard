@@ -3,7 +3,6 @@ import { useData } from '../../context/DataContext';
 import { FaChartLine, FaUsers, FaMoneyBillWave, FaClock } from 'react-icons/fa';
 import './AnalyticsPage.css';
 // Import new analysis components
-import ChurnSummary from '../Analysis/sections/ChurnSummary';
 import FeatureImpact from '../Analysis/sections/FeatureImpact';
 import DemographicBreakdown from '../Analysis/sections/DemographicBreakdown';
 import ServicesAnalysis from '../Analysis/sections/ServicesAnalysis';
@@ -93,9 +92,6 @@ const AnalyticsPage = () => {
       </div>
 
       <div className="analytics-sections">
-        <div className="analytics-section">
-          <ChurnSummary />
-        </div>
         <div className="analytics-section">
           <FeatureImpact />
         </div>

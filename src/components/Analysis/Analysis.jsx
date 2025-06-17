@@ -24,11 +24,6 @@ const Analysis = () => {
       </Box>
       
       <Grid container spacing={3}>
-        {/* Overall Churn Summary - Full Width */}
-        <Grid item xs={12}>
-          <ChurnSummary />
-        </Grid>
-
         {/* Key Metrics - Two Columns */}
         <Grid item xs={12} md={6}>
           <FeatureImpact />

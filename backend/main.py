@@ -8,6 +8,7 @@ import joblib
 import json
 from typing import Dict, List
 import io
+import os
 
 app = FastAPI()
 
@@ -21,7 +22,10 @@ app.add_middleware(
 )
 
 # Global variables to store data and model
-df = None
+if os.path.exists("uploaded_data.csv"):
+    df = pd.read_csv("uploaded_data.csv")
+else:
+    df = None
 model = None
 label_encoders = {}
 
@@ -74,6 +78,9 @@ async def upload_file(file: UploadFile = File(...)):
     contents = await file.read()
     df = pd.read_csv(io.StringIO(contents.decode('utf-8')))
     
+    # Save the uploaded CSV to disk for persistence
+    df.to_csv("uploaded_data.csv", index=False)
+    
     # Preprocess data
     processed_df = preprocess_data(df.copy())
     
@@ -86,19 +93,27 @@ async def upload_file(file: UploadFile = File(...)):
 @app.get("/churn-summary")
 async def get_churn_summary():
     """Get overall churn summary statistics."""
+    global df
     if df is None:
         return {"error": "No data uploaded"}
     
-    total_customers = len(df)
-    churn_rate = (df['Churn'] == 'Yes').mean() * 100 if 'Churn' in df.columns else None
-    retention_rate = 100 - churn_rate if churn_rate is not None else None
-    
-    contract_breakdown = df.groupby('Contract')['Churn'].apply(
-        lambda x: (x == 'Yes').mean() * 100
-    ).reset_index().to_dict('records')
-    
+    if 'Churn' in df.columns:
+        churn_col = df['Churn'].astype(str).str.strip().str.lower()
+        churn_rate = (churn_col == 'yes').mean() * 100
+        retention_rate = (churn_col == 'no').mean() * 100
+    else:
+        churn_rate = None
+        retention_rate = None
+
+    if 'Contract' in df.columns and 'Churn' in df.columns:
+        contract_breakdown = df.groupby('Contract')['Churn'].apply(
+            lambda x: (x.astype(str).str.strip().str.lower() == 'yes').mean() * 100
+        ).reset_index().to_dict('records')
+    else:
+        contract_breakdown = []
+
     return {
-        "totalCustomers": total_customers,
+        "totalCustomers": len(df),
         "churnRate": churn_rate,
         "retentionRate": retention_rate,
         "contractBreakdown": contract_breakdown
