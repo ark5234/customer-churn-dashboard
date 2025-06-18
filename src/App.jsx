@@ -1,7 +1,7 @@
 // App.jsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { SpeedInsights } from '@vercel/speed-insights/react';
-import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link, useLocation, useNavigate } from 'react-router-dom';
 import { FaChartLine, FaUpload, FaBars, FaTimes, FaMoon, FaSun } from 'react-icons/fa';
 import ChurnDashboard from './components/Dashboard/ChurnDashboard';
 import AnalyticsPage from './components/Dashboard/AnalyticsPage';
@@ -16,13 +16,54 @@ import CssBaseline from '@mui/material/CssBaseline';
 
 const Navigation = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [theme, setTheme] = useState('light');
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 10);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  useEffect(() => {
+    // Persist theme in localStorage
+    const storedTheme = localStorage.getItem('theme');
+    if (storedTheme) {
+      setTheme(storedTheme);
+      document.documentElement.setAttribute('data-theme', storedTheme);
+    }
+  }, []);
 
   const toggleTheme = () => {
     const newTheme = theme === 'light' ? 'dark' : 'light';
     setTheme(newTheme);
     document.documentElement.setAttribute('data-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
+  };
+
+  const handleLogoClick = (e) => {
+    e.preventDefault();
+    if (location.pathname === '/') {
+      // Try to scroll to Churn Analysis main section
+      const churnSection = document.querySelector('.dashboard-container');
+      if (churnSection) {
+        churnSection.scrollIntoView({ behavior: 'smooth' });
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    } else {
+      navigate('/');
+      setTimeout(() => {
+        const churnSection = document.querySelector('.dashboard-container');
+        if (churnSection) {
+          churnSection.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 300);
+    }
   };
 
   const navItems = [
@@ -35,10 +76,10 @@ const Navigation = () => {
 
   return (
     <>
-      <header className="app-header">
+      <header className={`app-header${scrolled ? ' scrolled' : ''}`}>
         <div className="navbar-flex">
           <div className="navbar-logo">
-            <h1>Customer Churn Dashboard</h1>
+            <h1 onClick={handleLogoClick}>Customer Churn Dashboard</h1>
           </div>
           <div className="navbar-actions">
             <button className="theme-toggle" onClick={toggleTheme}>

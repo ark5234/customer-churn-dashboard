@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useData } from '../../context/DataContext';
-import { FaChartLine, FaUsers, FaMoneyBillWave, FaClock } from 'react-icons/fa';
+import { FaChartLine, FaUsers, FaMoneyBillWave, FaClock, FaArrowUp } from 'react-icons/fa';
 import './AnalyticsPage.css';
 // Import new analysis components
 import FeatureImpact from '../Analysis/sections/FeatureImpact';
@@ -17,6 +17,19 @@ import InsightsSummary from '../Analysis/sections/InsightsSummary';
 
 const AnalyticsPage = () => {
   const { data, isLoading, error } = useData();
+  const [showScrollUp, setShowScrollUp] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowScrollUp(window.scrollY > 200);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const handleScrollUp = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   if (isLoading) {
     return <div className="loading">Loading...</div>;
@@ -123,6 +136,11 @@ const AnalyticsPage = () => {
           <InsightsSummary />
         </div>
       </div>
+      {showScrollUp && (
+        <button className="scroll-up-btn" onClick={handleScrollUp} title="Scroll to top">
+          <FaArrowUp className="scroll-up-arrow" />
+        </button>
+      )}
     </div>
   );
 };

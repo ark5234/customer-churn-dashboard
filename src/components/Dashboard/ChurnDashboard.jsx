@@ -103,7 +103,7 @@ const ChurnDashboard = () => {
 
   if (!data || data.length === 0) {
     return (
-      <div className="dashboard-container">
+      <div className="dashboard-container centered-empty-state">
         <div className="no-data-message">
           <h2>No Data Available</h2>
           <p>Please upload a CSV file to view the Churn Analysis.</p>
