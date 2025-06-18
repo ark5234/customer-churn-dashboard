@@ -40,10 +40,10 @@ const BillingAnalysis = ({ data }) => {
             <Typography variant="subtitle1" gutterBottom>
               Monthly Charges vs Total Charges
             </Typography>
-            <Box height={400}>
+            <Box height={400} className="chart-container billing">
               <ResponsiveContainer width="100%" height="100%">
                 <ScatterChart
-                  margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
+                  margin={{ top: 50, right: 20, bottom: 40, left: 20 }}
                 >
                   <CartesianGrid />
                   <XAxis
@@ -59,7 +59,7 @@ const BillingAnalysis = ({ data }) => {
                     label={{ value: 'Total Charges ($)', angle: -90, position: 'left' }}
                   />
                   <Tooltip cursor={{ strokeDasharray: '3 3' }} />
-                  <Legend />
+                  <Legend layout="horizontal" verticalAlign="top" align="center" />
                   <Scatter
                     name="Churned"
                     data={chargesData.filter(d => d.churned)}
@@ -80,7 +80,7 @@ const BillingAnalysis = ({ data }) => {
             <Typography variant="subtitle1" gutterBottom>
               Churn Rate by Contract Type and Billing Method
             </Typography>
-            <Box height={300}>
+            <Box height={300} className="chart-container billing">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart
                   data={contractBillingData}

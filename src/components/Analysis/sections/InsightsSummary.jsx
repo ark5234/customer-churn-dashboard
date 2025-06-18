@@ -67,42 +67,42 @@ const InsightsSummary = ({ data }) => {
 
   return (
     <Card>
-      <CardContent>
+      <CardContent className="insights-summary-card">
         <Typography variant="h6" gutterBottom>
           Insights Summary
         </Typography>
-
-        <Box sx={{ maxHeight: 600, overflow: 'auto' }}>
-          <List>
-            {insights.map((insight, index) => (
-              <React.Fragment key={index}>
-                <ListItem alignItems="flex-start">
-                  <ListItemIcon>
-                    {insight.icon}
-                  </ListItemIcon>
-                  <ListItemText
-                    primary={
-                      <Typography
-                        variant="body1"
-                        color={getInsightColor(insight.type)}
-                        sx={{ fontWeight: 'medium' }}
-                      >
-                        {insight.text}
-                      </Typography>
-                    }
-                  />
-                </ListItem>
-                {index < insights.length - 1 && <Divider variant="inset" component="li" />}
-              </React.Fragment>
-            ))}
-          </List>
-        </Box>
-
-        <Box mt={2}>
-          <Typography variant="subtitle2" color="text.secondary">
-            Insights are automatically generated based on the analysis of customer data and churn patterns.
-          </Typography>
-        </Box>
+        <div className="insights-summary-content">
+          <div className="insights-summary-list">
+            <List>
+              {insights.map((insight, index) => (
+                <React.Fragment key={index}>
+                  <ListItem alignItems="flex-start">
+                    <ListItemIcon>
+                      {insight.icon}
+                    </ListItemIcon>
+                    <ListItemText
+                      primary={
+                        <Typography
+                          variant="body1"
+                          color={getInsightColor(insight.type)}
+                          sx={{ fontWeight: 'medium' }}
+                        >
+                          {insight.text}
+                        </Typography>
+                      }
+                    />
+                  </ListItem>
+                  {index < insights.length - 1 && <Divider variant="inset" component="li" />}
+                </React.Fragment>
+              ))}
+            </List>
+          </div>
+          <div className="insights-summary-description">
+            <Typography variant="subtitle2" color="text.secondary">
+              Insights are automatically generated based on the analysis of customer data and churn patterns.
+            </Typography>
+          </div>
+        </div>
       </CardContent>
     </Card>
   );

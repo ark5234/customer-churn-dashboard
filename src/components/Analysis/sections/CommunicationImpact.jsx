@@ -33,7 +33,7 @@ const CommunicationImpact = ({ data }) => {
             <Typography variant="subtitle1" gutterBottom>
               Churn Rate by Phone Service
             </Typography>
-            <Box height={200}>
+            <Box height={200} className="chart-container communication">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={phoneServiceData}>
                   <CartesianGrid strokeDasharray="3 3" />
@@ -51,7 +51,7 @@ const CommunicationImpact = ({ data }) => {
             <Typography variant="subtitle1" gutterBottom>
               Churn Rate by Number of Lines
             </Typography>
-            <Box height={200}>
+            <Box height={200} className="chart-container communication">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={multipleLinesData}>
                   <CartesianGrid strokeDasharray="3 3" />
@@ -69,7 +69,7 @@ const CommunicationImpact = ({ data }) => {
             <Typography variant="subtitle1" gutterBottom>
               Combined Phone Service Analysis
             </Typography>
-            <Box height={200}>
+            <Box height={200} className="chart-container communication">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={combinedData}>
                   <CartesianGrid strokeDasharray="3 3" />

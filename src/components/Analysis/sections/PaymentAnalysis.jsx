@@ -33,7 +33,7 @@ const PaymentAnalysis = ({ data }) => {
             <Typography variant="subtitle1" gutterBottom>
               Churn Rate by Payment Method
             </Typography>
-            <Box height={300}>
+            <Box height={300} className="chart-container payment">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart
                   data={paymentMethodData}
@@ -54,7 +54,7 @@ const PaymentAnalysis = ({ data }) => {
             <Typography variant="subtitle1" gutterBottom>
               Payment Method Distribution
             </Typography>
-            <Box height={300}>
+            <Box height={300} className="chart-container payment">
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
                   <Pie

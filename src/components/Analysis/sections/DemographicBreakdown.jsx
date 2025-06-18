@@ -39,7 +39,7 @@ const DemographicBreakdown = ({ data }) => {
             <Typography variant="subtitle1" gutterBottom>
               Churn by Gender
             </Typography>
-            <Box height={200}>
+            <Box height={200} className="chart-container demographic">
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
                   <Pie
@@ -67,7 +67,7 @@ const DemographicBreakdown = ({ data }) => {
             <Typography variant="subtitle1" gutterBottom>
               Churn Rate by Senior Status
             </Typography>
-            <Box height={200}>
+            <Box height={200} className="chart-container demographic">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={seniorData}>
                   <CartesianGrid strokeDasharray="3 3" />
@@ -85,7 +85,7 @@ const DemographicBreakdown = ({ data }) => {
             <Typography variant="subtitle1" gutterBottom>
               Churn Rate by Partner Status
             </Typography>
-            <Box height={200}>
+            <Box height={200} className="chart-container demographic">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={partnerData}>
                   <CartesianGrid strokeDasharray="3 3" />
@@ -103,7 +103,7 @@ const DemographicBreakdown = ({ data }) => {
             <Typography variant="subtitle1" gutterBottom>
               Churn Rate by Dependents
             </Typography>
-            <Box height={200}>
+            <Box height={200} className="chart-container demographic">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={dependentData}>
                   <CartesianGrid strokeDasharray="3 3" />

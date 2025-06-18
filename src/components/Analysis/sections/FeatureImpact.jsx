@@ -20,7 +20,7 @@ const FeatureImpact = ({ data }) => {
         </Typography>
 
         {/* Feature Importance Chart */}
-        <Box height={300}>
+        <Box height={300} className="chart-container feature-impact">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart
               data={featureImportance}

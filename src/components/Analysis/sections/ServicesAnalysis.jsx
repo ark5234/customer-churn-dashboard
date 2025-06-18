@@ -30,7 +30,7 @@ const ServicesAnalysis = ({ data }) => {
             <Typography variant="subtitle1" gutterBottom>
               Churn Rate by Internet Service Type
             </Typography>
-            <Box height={300}>
+            <Box height={300} className="chart-container services">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={internetServiceData}>
                   <CartesianGrid strokeDasharray="3 3" />
@@ -48,7 +48,7 @@ const ServicesAnalysis = ({ data }) => {
             <Typography variant="subtitle1" gutterBottom>
               Churn Rate by Additional Services
             </Typography>
-            <Box height={300}>
+            <Box height={300} className="chart-container services">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart
                   data={additionalServicesData}

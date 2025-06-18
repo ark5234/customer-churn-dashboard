@@ -34,7 +34,7 @@ const TenureAnalysis = ({ data }) => {
             <Typography variant="subtitle1" gutterBottom>
               Monthly Churn Trend
             </Typography>
-            <Box height={300}>
+            <Box height={300} className="chart-container tenure">
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart
                   data={monthlyChurnData}
@@ -62,7 +62,7 @@ const TenureAnalysis = ({ data }) => {
             <Typography variant="subtitle1" gutterBottom>
               Churn Rate by Tenure Buckets
             </Typography>
-            <Box height={300}>
+            <Box height={300} className="chart-container tenure">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart
                   data={tenureBucketsData}

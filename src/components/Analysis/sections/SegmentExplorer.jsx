@@ -174,7 +174,7 @@ const SegmentExplorer = ({ data }) => {
             <Typography variant="subtitle1" gutterBottom>
               Segment Analysis
             </Typography>
-            <Box height={400}>
+            <Box height={400} className="chart-container segment-explorer">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart
                   data={segmentData}

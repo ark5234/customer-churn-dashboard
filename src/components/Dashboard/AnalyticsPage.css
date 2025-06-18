@@ -7,7 +7,7 @@
 
 .analytics-page {
   padding: 2rem;
-  max-width: 1400px;
+  max-width: 1800px;
   margin: 0 auto;
 }
 
@@ -78,11 +78,12 @@
 .analytics-section {
   background: var(--surface-color);
   border-radius: 1rem;
-  padding: 2rem 1.5rem;
+  padding: 2rem 2.5rem;
   margin-bottom: 1.5rem;
   box-shadow: 0 2px 8px rgba(0,0,0,0.03);
   width: 100%;
   max-width: 100%;
+  min-height: 650px;
 }
 
 .analytics-section h2 {
@@ -91,14 +92,71 @@
   font-size: 1.25rem;
 }
 
+/* Chart container base styles */
 .chart-container {
-  min-height: 300px;
   width: 100%;
-  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   color: var(--text-secondary);
+  padding: 0 1rem;
+}
+
+/* Specific heights for different chart types */
+.chart-container.feature-impact {
+  height: 400px;
+  min-height: 400px;
+}
+
+.chart-container.demographic {
+  height: 500px;
+  min-height: 500px;
+}
+
+.chart-container.services {
+  height: 450px;
+  min-height: 450px;
+}
+
+.chart-container.communication {
+  height: 500px;
+  min-height: 500px;
+}
+
+.chart-container.tenure {
+  height: 600px;
+  min-height: 600px;
+}
+
+.chart-container.billing {
+  height: 700px;
+  min-height: 700px;
+}
+
+.chart-container.payment {
+  height: 500px;
+  min-height: 500px;
+}
+
+.chart-container.contract {
+  height: 400px;
+  min-height: 400px;
+}
+
+.chart-container.segment-explorer {
+  height: 600px;
+  min-height: 600px;
+}
+
+.chart-container.insights {
+  height: 400px;
+  min-height: 400px;
+}
+
+/* For MUI Box height in chart sections */
+.analytics-section .MuiBox-root {
+  width: 100% !important;
+  padding: 0 0.5rem;
 }
 
 .loading,
@@ -117,6 +175,7 @@
   color: #dc2626;
 }
 
+/* Responsive adjustments */
 @media (max-width: 768px) {
   .analytics-page {
     padding: 1rem;
@@ -146,7 +205,60 @@
   .metric-value {
     font-size: 1.25rem;
   }
+  
+  .chart-container {
+    padding: 0 0.5rem;
+  }
+  
   .analytics-section {
-    padding: 1.25rem 0.75rem;
+    padding: 1.25rem 1rem;
+    min-height: auto;
+  }
+  
+  .analytics-section .MuiBox-root {
+    padding: 0 0.25rem;
+  }
+}
+
+/* Insights Summary Card Styles */
+.insights-summary-card {
+  padding: 2rem 2.5rem;
+  background: var(--surface-color);
+  border-radius: 1rem;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.insights-summary-content {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.insights-summary-list {
+  max-height: 400px;
+  overflow-y: auto;
+  width: 100%;
+}
+
+.insights-summary-description {
+  width: 100%;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+@media (max-width: 900px) {
+  .insights-summary-card {
+    padding: 1.25rem 1rem;
+    max-width: 100%;
+  }
+  .insights-summary-content {
+    gap: 1rem;
   }
 } 

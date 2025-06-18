@@ -41,11 +41,11 @@ const ContractAnalysis = ({ data }) => {
             <Typography variant="subtitle1" gutterBottom>
               Churn Rate by Contract Type
             </Typography>
-            <Box height={300}>
+            <Box height={300} className="chart-container contract">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart
                   data={contractTypeData}
-                  margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+                  margin={{ top: 20, right: 30, left: 20, bottom: 40 }}
                 >
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="type" />
@@ -62,11 +62,11 @@ const ContractAnalysis = ({ data }) => {
             <Typography variant="subtitle1" gutterBottom>
               Contract Type vs Tech Support
             </Typography>
-            <Box height={300}>
+            <Box height={300} className="chart-container contract">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart
                   data={contractWithTechSupport}
-                  margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+                  margin={{ top: 20, right: 30, left: 20, bottom: 40 }}
                 >
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="category" angle={-45} textAnchor="end" height={100} />
@@ -83,11 +83,11 @@ const ContractAnalysis = ({ data }) => {
             <Typography variant="subtitle1" gutterBottom>
               Contract Type vs Online Security
             </Typography>
-            <Box height={300}>
+            <Box height={300} className="chart-container contract">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart
                   data={contractWithSecurity}
-                  margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+                  margin={{ top: 20, right: 30, left: 20, bottom: 40 }}
                 >
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="category" angle={-45} textAnchor="end" height={100} />
