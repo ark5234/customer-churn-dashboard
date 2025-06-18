@@ -58,7 +58,7 @@ const AnalyticsPage = () => {
   return (
     <div className="analytics-page">
       <div className="analytics-header">
-        <h1>Analytics Dashboard</h1>
+        <h1 className="teal-text">Analytics Dashboard</h1>
         <PDFDownload />
       </div>
       

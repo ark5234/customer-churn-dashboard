@@ -79,7 +79,7 @@ const Navigation = () => {
       <header className={`app-header${scrolled ? ' scrolled' : ''}`}>
         <div className="navbar-flex">
           <div className="navbar-logo">
-            <h1 onClick={handleLogoClick}>Customer Churn Dashboard</h1>
+            <h1 onClick={handleLogoClick} className="gradient-logo-text">Customer Churn Dashboard</h1>
           </div>
           <div className="navbar-actions">
             <button className="theme-toggle" onClick={toggleTheme}>

@@ -53,22 +53,22 @@ const InsightsSummary = ({ data }) => {
   const getInsightColor = (type) => {
     switch (type) {
       case 'high-risk':
-        return 'error.main';
+        return '#ef4444'; // red
       case 'trend':
-        return 'warning.main';
+        return '#f59e0b'; // orange
       case 'positive':
-        return 'success.main';
+        return '#14b8a6'; // teal
       case 'info':
-        return 'info.main';
+        return '#3b82f6'; // blue
       default:
-        return 'text.primary';
+        return 'inherit';
     }
   };
 
   return (
-    <Card>
+    <Card style={{ borderRadius: 20, boxShadow: '0 4px 24px 0 rgba(0,0,0,0.10)' }}>
       <CardContent className="insights-summary-card">
-        <Typography variant="h6" gutterBottom>
+        <Typography variant="h6" gutterBottom className="teal-text" style={{ fontWeight: 700 }}>
           Insights Summary
         </Typography>
         <div className="insights-summary-content">
@@ -76,29 +76,28 @@ const InsightsSummary = ({ data }) => {
             <List>
               {insights.map((insight, index) => (
                 <React.Fragment key={index}>
-                  <ListItem alignItems="flex-start">
-                    <ListItemIcon>
+                  <ListItem alignItems="flex-start" style={{ paddingTop: 18, paddingBottom: 18 }}>
+                    <ListItemIcon style={{ minWidth: 40, marginTop: 2 }}>
                       {insight.icon}
                     </ListItemIcon>
                     <ListItemText
                       primary={
                         <Typography
                           variant="body1"
-                          color={getInsightColor(insight.type)}
-                          sx={{ fontWeight: 'medium' }}
+                          style={{ color: getInsightColor(insight.type), fontWeight: 600, fontSize: '1.08rem', lineHeight: 1.6 }}
                         >
                           {insight.text}
                         </Typography>
                       }
                     />
                   </ListItem>
-                  {index < insights.length - 1 && <Divider variant="inset" component="li" />}
+                  {index < insights.length - 1 && <div style={{ height: 4 }} />}
                 </React.Fragment>
               ))}
             </List>
           </div>
           <div className="insights-summary-description">
-            <Typography variant="subtitle2" color="text.secondary">
+            <Typography variant="subtitle2" style={{ color: '#64748b', fontSize: '0.95rem' }}>
               Insights are automatically generated based on the analysis of customer data and churn patterns.
             </Typography>
           </div>

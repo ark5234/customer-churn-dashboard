@@ -166,19 +166,19 @@ const ChurnDashboard = () => {
         <div className="churn-analysis-visuals">
           <div className="churn-donut-chart">
             <svg width="140" height="140" viewBox="0 0 140 140">
-              <circle r="60" cx="70" cy="70" fill="#e5e7eb" />
+              <circle r="60" cx="70" cy="70" fill="none" stroke="#e5e7eb" strokeWidth="18" />
               <circle
                 r="60"
                 cx="70"
                 cy="70"
-                fill="transparent"
+                fill="none"
                 stroke="#2563eb"
                 strokeWidth="18"
                 strokeDasharray={`${(churned / totalCustomers) * 377}, 377`}
                 transform="rotate(-90 70 70)"
               />
             </svg>
-            <div className="churn-donut-label">{churnRate}%<br />Churned</div>
+            <div className="churn-donut-label orange-text">{churnRate}%<br />Churned</div>
           </div>
           <div className="churn-contract-bar">
             <h3><FaChartBar /> Churn by Contract Type</h3>
@@ -189,7 +189,7 @@ const ChurnDashboard = () => {
                   <div className="contract-bar-outer">
                     <div className="contract-bar-inner" style={{ width: `${c.churnRate}%` }}></div>
                   </div>
-                  <div className="contract-bar-value">{c.churnRate}%</div>
+                  <div className="contract-bar-value orange-text">{c.churnRate}%</div>
                 </div>
               ))}
             </div>
@@ -200,19 +200,17 @@ const ChurnDashboard = () => {
       {/* Insights Section */}
       <div className="dashboard-section">
         <div className="churn-key-insights">
-          <h3><FaChartPie /> Key Insights</h3>
+          <h3 className="orange-text"><FaChartPie /> Key Insights</h3>
           <ul>
             {insights.map((insight, i) => <li key={i}>{insight}</li>)}
           </ul>
         </div>
         <div className="churn-top-factors">
-          <h3>Top Factors Impacting Churn</h3>
+          <h3 className="teal-text">Top Factors Impacting Churn</h3>
           <div className="top-factors-list">
             {topFactors.map(f => (
               <div key={f.label} className="top-factor-item">
-                <span>{f.label}</span>
-                <div className="top-factor-bar" style={{ width: `${f.value}%` }}></div>
-                <span className="top-factor-value">{f.value}%</span>
+                <span>{f.label}: <span className="teal-text">{f.value}%</span></span>
               </div>
             ))}
           </div>
