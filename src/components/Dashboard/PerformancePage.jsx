@@ -1,9 +1,29 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useData } from '../../context/DataContext';
 import { FaChartLine } from 'react-icons/fa';
+import { getModelAccuracy } from '../../services/api';
 
 const PerformancePage = () => {
   const { data, isLoading, error } = useData();
+  const [accuracy, setAccuracy] = useState(null);
+  const [accuracyLoading, setAccuracyLoading] = useState(false);
+  const [accuracyError, setAccuracyError] = useState(null);
+
+  useEffect(() => {
+    const fetchAccuracy = async () => {
+      setAccuracyLoading(true);
+      setAccuracyError(null);
+      try {
+        const result = await getModelAccuracy();
+        setAccuracy(result.accuracy);
+      } catch (err) {
+        setAccuracyError(err.message || 'Failed to fetch accuracy');
+      } finally {
+        setAccuracyLoading(false);
+      }
+    };
+    fetchAccuracy();
+  }, []);
 
   if (isLoading) {
     return <div className="loading">Loading...</div>;
@@ -33,7 +53,15 @@ const PerformancePage = () => {
             </div>
             <div className="metric-content">
               <h3>Model Performance</h3>
-              <p className="metric-value">92%</p>
+              {accuracyLoading ? (
+                <p className="metric-value">Loading...</p>
+              ) : accuracyError ? (
+                <p className="metric-value error">{accuracyError}</p>
+              ) : accuracy !== null ? (
+                <p className="metric-value">{accuracy}%</p>
+              ) : (
+                <p className="metric-value">--</p>
+              )}
             </div>
           </div>
         </div>

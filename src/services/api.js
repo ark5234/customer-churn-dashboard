@@ -61,4 +61,26 @@ export const predictChurn = async (customerData) => {
     throw new Error('Failed to predict churn');
   }
   return response.json();
+};
+
+export const getModelAccuracy = async () => {
+  const response = await fetch(`${API_BASE_URL}/model-accuracy`);
+  if (!response.ok) {
+    throw new Error('Failed to fetch model accuracy');
+  }
+  return response.json();
+};
+
+export const manualPredict = async (customerData) => {
+  const response = await fetch(`${API_BASE_URL}/manual-predict`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(customerData),
+  });
+  if (!response.ok) {
+    throw new Error('Failed to predict churn');
+  }
+  return response.json();
 }; 

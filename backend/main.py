@@ -1,21 +1,23 @@
-from fastapi import FastAPI, UploadFile, File
+from fastapi import FastAPI, UploadFile, File, Request, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 import pandas as pd
-import numpy as np
+import io
+import os
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.preprocessing import LabelEncoder
 import joblib
-import json
-from typing import Dict, List
-import io
-import os
+from sklearn.metrics import accuracy_score
 
 app = FastAPI()
 
 # Enable CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://localhost:3000"],  # Allow both Vite and React dev servers
+    allow_origins=[
+        "http://localhost:5173",
+        "http://localhost:3000",
+        "http://localhost:3001"
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -29,9 +31,69 @@ else:
 model = None
 label_encoders = {}
 
+MODEL_PATH = 'model.joblib'
+ENCODERS_PATH = 'label_encoders.joblib'
+DATA_PATH = 'uploaded_data.csv'
+
+def load_model_and_encoders():
+    if not os.path.exists(MODEL_PATH) or not os.path.exists(ENCODERS_PATH):
+        return None, None
+    model = joblib.load(MODEL_PATH)
+    encoders = joblib.load(ENCODERS_PATH)
+    return model, encoders
+
+def preprocess_input(data: pd.DataFrame, encoders: dict) -> pd.DataFrame:
+    categorical_columns = [
+        'gender', 'Partner', 'Dependents', 'PhoneService', 'MultipleLines',
+        'InternetService', 'OnlineSecurity', 'OnlineBackup', 'DeviceProtection',
+        'TechSupport', 'StreamingTV', 'StreamingMovies', 'Contract',
+        'PaperlessBilling', 'PaymentMethod'
+    ]
+    for column in categorical_columns:
+        if column in data.columns and column in encoders:
+            data[column] = encoders[column].transform(data[column])
+    if 'TotalCharges' in data.columns:
+        data['TotalCharges'] = pd.to_numeric(data['TotalCharges'], errors='coerce')
+        data['TotalCharges'].fillna(data['TotalCharges'].mean(), inplace=True)
+    return data
+
+def get_model_accuracy():
+    print("Checking for file:", os.path.abspath(DATA_PATH), "Exists:", os.path.exists(DATA_PATH))
+    if not os.path.exists(DATA_PATH):
+        raise FileNotFoundError('No uploaded data found')
+    model, encoders = load_model_and_encoders()
+    if model is None or encoders is None:
+        raise RuntimeError('Model not trained')
+    df = pd.read_csv(DATA_PATH)
+    if 'Churn' not in df.columns:
+        raise ValueError('No Churn column in data')
+    X = df.drop(['customerID', 'Churn'], axis=1, errors='ignore')
+    y = df['Churn']
+    X_processed = preprocess_input(X.copy(), encoders)
+    y_pred = model.predict(X_processed)
+    acc = accuracy_score(y, y_pred)
+    return round(acc * 100, 2)
+
+def get_manual_prediction(data):
+    model, encoders = load_model_and_encoders()
+    if model is None or encoders is None:
+        raise RuntimeError('Model not trained')
+    input_df = pd.DataFrame([data])
+    processed_input = preprocess_input(input_df, encoders)
+    # Ensure columns match model
+    missing_cols = set(model.feature_names_in_) - set(processed_input.columns)
+    for col in missing_cols:
+        processed_input[col] = 0
+    processed_input = processed_input[model.feature_names_in_]
+    probability = model.predict_proba(processed_input)[0][1]
+    prediction = model.predict(processed_input)[0]
+    return {
+        "churnProbability": float(probability),
+        "prediction": str(prediction)
+    }
+
 def preprocess_data(data: pd.DataFrame) -> pd.DataFrame:
     """Preprocess the data for analysis."""
-    # Create copies of categorical columns
     categorical_columns = [
         'gender', 'Partner', 'Dependents', 'PhoneService', 'MultipleLines',
         'InternetService', 'OnlineSecurity', 'OnlineBackup', 'DeviceProtection',
@@ -71,24 +133,23 @@ def train_model(data: pd.DataFrame):
 
 @app.post("/upload")
 async def upload_file(file: UploadFile = File(...)):
-    """Upload and process the customer data file."""
+    """Upload and save the customer data file robustly."""
     global df
-    
-    # Read the uploaded file
-    contents = await file.read()
-    df = pd.read_csv(io.StringIO(contents.decode('utf-8')))
-    
-    # Save the uploaded CSV to disk for persistence
-    df.to_csv("uploaded_data.csv", index=False)
-    
-    # Preprocess data
-    processed_df = preprocess_data(df.copy())
-    
-    # Train model if Churn column exists
-    if 'Churn' in df.columns:
-        train_model(processed_df)
-    
-    return {"message": "File uploaded and processed successfully"}
+    try:
+        contents = await file.read()
+        with open("uploaded_data.csv", "wb") as f:
+            f.write(contents)
+        print("Saved uploaded_data.csv at:", os.path.abspath("uploaded_data.csv"))
+        # Reload df from the saved file
+        df = pd.read_csv("uploaded_data.csv")
+        # Preprocess and train if Churn column exists
+        processed_df = preprocess_data(df.copy())
+        if 'Churn' in df.columns:
+            train_model(processed_df)
+        return {"message": "File uploaded and processed successfully"}
+    except Exception as e:
+        print("Error in /upload:", e)
+        raise HTTPException(status_code=500, detail=str(e))
 
 @app.get("/churn-summary")
 async def get_churn_summary():
@@ -182,7 +243,7 @@ async def get_services_analysis():
     }
 
 @app.post("/predict")
-async def predict_churn(data: Dict):
+async def predict_churn(data: dict):
     """Predict churn probability for new customers."""
     if model is None:
         return {"error": "Model not trained"}
@@ -201,6 +262,27 @@ async def predict_churn(data: Dict):
         "riskLevel": "High" if probability > 0.7 else "Medium" if probability > 0.3 else "Low"
     }
 
+@app.get("/model-accuracy")
+async def model_accuracy():
+    try:
+        accuracy = get_model_accuracy()
+        return {"accuracy": accuracy}
+    except FileNotFoundError as e:
+        raise HTTPException(status_code=404, detail=str(e))
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/manual-predict")
+async def manual_predict(request: Request):
+    try:
+        data = await request.json()
+        result = get_manual_prediction(data)
+        return result
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
 if __name__ == "__main__":
     import uvicorn
+    for route in app.routes:
+        print(route.path)
     uvicorn.run(app, host="0.0.0.0", port=8000) 
