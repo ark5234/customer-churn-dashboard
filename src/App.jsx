@@ -131,7 +131,7 @@ const Navigation = () => {
       </div>
 
       <footer className="app-footer">
-        <p>© 2024 Customer Churn Dashboard. All rights reserved.</p>
+        <p>© 2025 Customer Churn Dashboard. All rights reserved.</p>
       </footer>
     </>
   );
