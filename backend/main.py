@@ -7,6 +7,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.preprocessing import LabelEncoder
 import joblib
 from sklearn.metrics import accuracy_score
+from pydantic import BaseModel
 
 app = FastAPI()
 
@@ -132,6 +133,17 @@ def train_model(data: pd.DataFrame):
         # Save model and encoders
         joblib.dump(model, 'model.joblib')
         joblib.dump(label_encoders, 'label_encoders.joblib')
+
+class ManualPredictInput(BaseModel):
+    gender: str
+    tenure: int
+    MonthlyCharges: float
+    Contract: str
+    SeniorCitizen: int
+    Partner: str
+    Dependents: str
+    PhoneService: str
+    InternetService: str
 
 @app.post("/upload")
 async def upload_file(file: UploadFile = File(...)):
@@ -275,12 +287,12 @@ async def model_accuracy():
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.post("/manual-predict")
-async def manual_predict(request: Request):
+async def manual_predict(data: ManualPredictInput):
     try:
-        data = await request.json()
-        result = get_manual_prediction(data)
+        result = get_manual_prediction(data.dict())
         return result
     except Exception as e:
+        print("Error in /manual-predict:", e)
         raise HTTPException(status_code=500, detail=str(e))
 
 if __name__ == "__main__":
