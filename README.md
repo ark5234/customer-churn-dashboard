@@ -120,3 +120,24 @@ MIT
 - Built with [React](https://react.dev/), [FastAPI](https://fastapi.tiangolo.com/), [scikit-learn](https://scikit-learn.org/), and [Vercel](https://vercel.com/)/[Render](https://render.com/).
 
 ---
+
+## Sample CSV Format
+
+Below is a sample of the expected CSV format for uploading customer data. The file **must include a `Churn` column** for model training.
+
+```csv
+customerID,gender,SeniorCitizen,Partner,Dependents,tenure,PhoneService,InternetService,Contract,MonthlyCharges,Churn
+7590-VHVEG,Female,0,Yes,No,1,No,DSL,Month-to-month,29.85,No
+5575-GNVDE,Male,0,No,No,34,Yes,DSL,One year,56.95,No
+3668-QPYBK,Male,0,No,No,2,Yes,DSL,Month-to-month,53.85,Yes
+7795-CFOCW,Male,0,No,No,45,No,Fiber optic,One year,42.30,No
+9237-HQITU,Female,0,No,No,2,Yes,No,Month-to-month,70.70,Yes
+
+your_id,Female,1,Yes,Yes,12,Yes,Fiber optic,Two year,99.65,No
+```
+
+- **Required columns:** `customerID`, `gender`, `SeniorCitizen`, `Partner`, `Dependents`, `tenure`, `PhoneService`, `InternetService`, `Contract`, `MonthlyCharges`, `Churn`
+- **Churn values:** `Yes` or `No`
+- You can add more rows or columns as needed, but these columns are required for the model to work.
+
+---
