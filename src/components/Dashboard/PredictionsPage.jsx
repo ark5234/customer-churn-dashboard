@@ -25,6 +25,7 @@ const PredictionsPage = () => {
   const { data, isLoading, error } = useData();
   const [form, setForm] = useState(initialForm);
   const [prediction, setPrediction] = useState(null);
+  const [recentPredictions, setRecentPredictions] = useState([]);
   const [loading, setLoading] = useState(false);
   const [predictError, setPredictError] = useState(null);
 
@@ -46,6 +47,10 @@ const PredictionsPage = () => {
       };
       const result = await manualPredict(payload);
       setPrediction(result);
+      setRecentPredictions(prev => [
+        { input: { ...form }, result },
+        ...prev.slice(0, 9)
+      ]);
     } catch (err) {
       setPredictError(err.message || 'Prediction failed');
     } finally {
@@ -133,7 +138,47 @@ const PredictionsPage = () => {
         </div>
         <div className="predictions-table">
           <h2>Recent Predictions</h2>
-          <p>Prediction table will be displayed here</p>
+          {recentPredictions.length === 0 ? (
+            <p>Prediction table will be displayed here</p>
+          ) : (
+            <div style={{ overflowX: 'auto' }}>
+              <table className="recent-predictions-table">
+                <caption className="sr-only">Recent Predictions Table</caption>
+                <thead>
+                  <tr>
+                    <th>Gender</th>
+                    <th>Tenure</th>
+                    <th>Monthly Charges</th>
+                    <th>Contract</th>
+                    <th>Senior Citizen</th>
+                    <th>Partner</th>
+                    <th>Dependents</th>
+                    <th>Phone Service</th>
+                    <th>Internet Service</th>
+                    <th>Prediction</th>
+                    <th>Churn Probability</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {recentPredictions.map((item, idx) => (
+                    <tr key={idx}>
+                      <td>{item.input.gender}</td>
+                      <td style={{ textAlign: 'right' }}>{item.input.tenure}</td>
+                      <td style={{ textAlign: 'right' }}>{item.input.MonthlyCharges}</td>
+                      <td>{item.input.Contract}</td>
+                      <td>{item.input.SeniorCitizen === '1' ? 'Yes' : 'No'}</td>
+                      <td>{item.input.Partner}</td>
+                      <td>{item.input.Dependents}</td>
+                      <td>{item.input.PhoneService}</td>
+                      <td>{item.input.InternetService}</td>
+                      <td>{item.result.prediction}</td>
+                      <td style={{ textAlign: 'right' }}>{(item.result.churnProbability * 100).toFixed(2)}%</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
         </div>
       </div>
     </div>

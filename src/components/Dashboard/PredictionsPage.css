@@ -58,9 +58,64 @@
   box-shadow: 0 2px 12px 0 rgba(0,0,0,0.08);
 }
 
+.recent-predictions-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: #1e293b;
+  color: #fff;
+  border-radius: 8px;
+  font-size: 0.97rem;
+  overflow: hidden;
+  margin-top: 8px;
+}
+.recent-predictions-table th, .recent-predictions-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid #334155;
+}
+.recent-predictions-table th {
+  background: #22304a;
+  font-weight: bold;
+  text-align: left;
+  font-size: 1.05rem;
+}
+.recent-predictions-table tr:nth-child(even) {
+  background: #24304a;
+}
+.recent-predictions-table tr:hover {
+  background: #334155;
+}
+.recent-predictions-table td {
+  vertical-align: middle;
+}
+.recent-predictions-table td:nth-child(2),
+.recent-predictions-table td:nth-child(3),
+.recent-predictions-table td:nth-child(11) {
+  text-align: right;
+}
+.recent-predictions-table caption.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  border: 0;
+}
 @media (max-width: 900px) {
   .manual-predict-form {
     flex-direction: column;
     align-items: stretch;
+  }
+  .recent-predictions-table th, .recent-predictions-table td {
+    padding: 7px 6px;
+    font-size: 0.93rem;
+  }
+  .recent-predictions-table {
+    font-size: 0.93rem;
+  }
+  .recent-predictions-table td {
+    min-width: 80px;
   }
 } 
