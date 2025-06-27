@@ -17,7 +17,8 @@ app.add_middleware(
         "http://localhost:5173",
         "http://localhost:3000",
         "http://localhost:3001",
-        "https://customer-churn-dashboard-three.vercel.app"
+        "https://customer-churn-dashboard-three.vercel.app",
+        "https://customer-churn-dashboard-tiex.onrender.com/"
     ],
     allow_credentials=True,
     allow_methods=["*"],
