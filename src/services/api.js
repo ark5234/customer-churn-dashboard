@@ -1,4 +1,4 @@
-const API_BASE_URL = 'http://localhost:8000';
+const API_BASE_URL = 'https://customer-churn-dashboard-tiex.onrender.com';
 
 export const uploadData = async (file) => {
   const formData = new FormData();
