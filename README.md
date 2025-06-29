@@ -30,7 +30,7 @@ A full-stack web application for predicting customer churn, analyzing churn driv
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/yourusername/customer-churn-dashboard.git
+git clone https://github.com/ark5234/customer-churn-dashboard.git
 cd customer-churn-dashboard
 ```
 
