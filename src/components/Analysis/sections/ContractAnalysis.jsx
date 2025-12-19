@@ -47,11 +47,21 @@ const ContractAnalysis = ({ data }) => {
                   data={contractTypeData}
                   margin={{ top: 20, right: 30, left: 20, bottom: 40 }}
                 >
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="type" />
-                  <YAxis label={{ value: 'Churn Rate (%)', angle: -90, position: 'insideLeft' }} />
-                  <Tooltip />
-                  <Bar dataKey="churnRate" fill="#8884d8" />
+                  <defs>
+                    <linearGradient id="colorContract" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="#6366f1" stopOpacity={0.8}/>
+                      <stop offset="95%" stopColor="#6366f1" stopOpacity={0.2}/>
+                    </linearGradient>
+                  </defs>
+                  <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
+                  <XAxis dataKey="type" stroke="#94a3b8" />
+                  <YAxis stroke="#94a3b8" label={{ value: 'Churn Rate (%)', angle: -90, position: 'insideLeft', fill: '#94a3b8' }} />
+                  <Tooltip 
+                    cursor={{fill: 'rgba(255,255,255,0.05)'}}
+                    contentStyle={{ backgroundColor: 'rgba(15, 23, 42, 0.9)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px' }}
+                    itemStyle={{ color: '#f8fafc' }}
+                  />
+                  <Bar dataKey="churnRate" fill="url(#colorContract)" radius={[4, 4, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             </Box>
@@ -68,11 +78,21 @@ const ContractAnalysis = ({ data }) => {
                   data={contractWithTechSupport}
                   margin={{ top: 20, right: 30, left: 20, bottom: 40 }}
                 >
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="category" angle={-45} textAnchor="end" height={100} />
-                  <YAxis label={{ value: 'Churn Rate (%)', angle: -90, position: 'insideLeft' }} />
-                  <Tooltip />
-                  <Bar dataKey="churnRate" fill="#82ca9d" />
+                  <defs>
+                    <linearGradient id="colorTech" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="#10b981" stopOpacity={0.8}/>
+                      <stop offset="95%" stopColor="#10b981" stopOpacity={0.2}/>
+                    </linearGradient>
+                  </defs>
+                  <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
+                  <XAxis dataKey="category" angle={-45} textAnchor="end" height={100} stroke="#94a3b8" />
+                  <YAxis stroke="#94a3b8" label={{ value: 'Churn Rate (%)', angle: -90, position: 'insideLeft', fill: '#94a3b8' }} />
+                  <Tooltip 
+                    cursor={{fill: 'rgba(255,255,255,0.05)'}}
+                    contentStyle={{ backgroundColor: 'rgba(15, 23, 42, 0.9)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px' }}
+                    itemStyle={{ color: '#f8fafc' }}
+                  />
+                  <Bar dataKey="churnRate" fill="url(#colorTech)" radius={[4, 4, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             </Box>
@@ -89,11 +109,21 @@ const ContractAnalysis = ({ data }) => {
                   data={contractWithSecurity}
                   margin={{ top: 20, right: 30, left: 20, bottom: 40 }}
                 >
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="category" angle={-45} textAnchor="end" height={100} />
-                  <YAxis label={{ value: 'Churn Rate (%)', angle: -90, position: 'insideLeft' }} />
-                  <Tooltip />
-                  <Bar dataKey="churnRate" fill="#ffc658" />
+                  <defs>
+                    <linearGradient id="colorSecurity" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="#f59e0b" stopOpacity={0.8}/>
+                      <stop offset="95%" stopColor="#f59e0b" stopOpacity={0.2}/>
+                    </linearGradient>
+                  </defs>
+                  <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
+                  <XAxis dataKey="category" angle={-45} textAnchor="end" height={100} stroke="#94a3b8" />
+                  <YAxis stroke="#94a3b8" label={{ value: 'Churn Rate (%)', angle: -90, position: 'insideLeft', fill: '#94a3b8' }} />
+                  <Tooltip 
+                    cursor={{fill: 'rgba(255,255,255,0.05)'}}
+                    contentStyle={{ backgroundColor: 'rgba(15, 23, 42, 0.9)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px' }}
+                    itemStyle={{ color: '#f8fafc' }}
+                  />
+                  <Bar dataKey="churnRate" fill="url(#colorSecurity)" radius={[4, 4, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             </Box>

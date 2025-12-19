@@ -24,7 +24,7 @@ const DemographicBreakdown = ({ data }) => {
     { status: 'Without Dependents', churnRate: 29.6 }
   ];
 
-  const COLORS = ['#0088FE', '#00C49F'];
+  const COLORS = ['#6366f1', '#ec4899', '#06b6d4'];
 
   return (
     <Card>
@@ -46,17 +46,20 @@ const DemographicBreakdown = ({ data }) => {
                     data={genderData}
                     cx="50%"
                     cy="50%"
-                    labelLine={false}
-                    label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                    innerRadius={60}
                     outerRadius={80}
-                    fill="#8884d8"
+                    paddingAngle={5}
                     dataKey="value"
                   >
                     {genderData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} stroke="rgba(255,255,255,0.1)" />
                     ))}
                   </Pie>
-                  <Tooltip />
+                  <Tooltip 
+                    contentStyle={{ backgroundColor: 'rgba(15, 23, 42, 0.9)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px' }}
+                    itemStyle={{ color: '#f8fafc' }}
+                  />
+                  <Legend verticalAlign="bottom" height={36}/>
                 </PieChart>
               </ResponsiveContainer>
             </Box>
@@ -70,11 +73,21 @@ const DemographicBreakdown = ({ data }) => {
             <Box height={200} className="chart-container demographic">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={seniorData}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="category" />
-                  <YAxis label={{ value: 'Churn Rate (%)', angle: -90, position: 'insideLeft' }} />
-                  <Tooltip />
-                  <Bar dataKey="churnRate" fill="#8884d8" />
+                  <defs>
+                    <linearGradient id="colorSenior" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="#6366f1" stopOpacity={0.8}/>
+                      <stop offset="95%" stopColor="#6366f1" stopOpacity={0.2}/>
+                    </linearGradient>
+                  </defs>
+                  <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
+                  <XAxis dataKey="category" stroke="#94a3b8" />
+                  <YAxis stroke="#94a3b8" label={{ value: 'Churn Rate (%)', angle: -90, position: 'insideLeft', fill: '#94a3b8' }} />
+                  <Tooltip 
+                    cursor={{fill: 'rgba(255,255,255,0.05)'}}
+                    contentStyle={{ backgroundColor: 'rgba(15, 23, 42, 0.9)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px' }}
+                    itemStyle={{ color: '#f8fafc' }}
+                  />
+                  <Bar dataKey="churnRate" fill="url(#colorSenior)" radius={[4, 4, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             </Box>
@@ -88,11 +101,21 @@ const DemographicBreakdown = ({ data }) => {
             <Box height={200} className="chart-container demographic">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={partnerData}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="status" />
-                  <YAxis label={{ value: 'Churn Rate (%)', angle: -90, position: 'insideLeft' }} />
-                  <Tooltip />
-                  <Bar dataKey="churnRate" fill="#82ca9d" />
+                  <defs>
+                    <linearGradient id="colorPartner" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="#ec4899" stopOpacity={0.8}/>
+                      <stop offset="95%" stopColor="#ec4899" stopOpacity={0.2}/>
+                    </linearGradient>
+                  </defs>
+                  <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
+                  <XAxis dataKey="status" stroke="#94a3b8" />
+                  <YAxis stroke="#94a3b8" label={{ value: 'Churn Rate (%)', angle: -90, position: 'insideLeft', fill: '#94a3b8' }} />
+                  <Tooltip 
+                    cursor={{fill: 'rgba(255,255,255,0.05)'}}
+                    contentStyle={{ backgroundColor: 'rgba(15, 23, 42, 0.9)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px' }}
+                    itemStyle={{ color: '#f8fafc' }}
+                  />
+                  <Bar dataKey="churnRate" fill="url(#colorPartner)" radius={[4, 4, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             </Box>
