@@ -6,13 +6,20 @@ A full-stack web application for predicting customer churn, analyzing churn driv
 
 ## Features
 
-- **Upload customer data** (CSV) for analysis and model training.
-- **Manual churn prediction** form for individual customer scenarios.
-- **Recent Predictions** table (in-memory, per session).
-- **Churn probability** and model confidence for each prediction.
-- **Performance analytics** (model accuracy, churn rates, etc.).
-- **Beautiful, responsive dashboard** with dark mode support.
-- **Deployed frontend (Vercel)** and **backend (Render)** with CORS support.
+- **Advanced Analytics Dashboard**:
+  - **Upload customer data** (CSV) for instant analysis and model retraining.
+  - **Interactive Visualizations**: Donut charts, gradient metrics, and dynamic performance graphs.
+  - **Real-time Insights**: Churn probability, model confidence, and key driver analysis.
+
+- **Smart Prediction Tools**:
+  - **Manual Prediction Engine**: Compact, efficient form for individual customer scenarios.
+  - **Live Scoring**: Instant churn probability assessment with confidence intervals.
+  - **Session History**: Track recent predictions in real-time.
+
+- **Modern UI/UX Design**:
+  - **Deep Space Theme**: Immersive dark mode with "Digital Network" backgrounds and glassmorphism.
+  - **Professional Light Mode**: Clean "Financial Analytics" aesthetic for business environments.
+  - **Responsive Layouts**: Optimized for all devices with adaptive grids and smooth transitions.
 
 ---
 
