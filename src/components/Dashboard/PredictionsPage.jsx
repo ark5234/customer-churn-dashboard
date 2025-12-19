@@ -87,39 +87,51 @@ const PredictionsPage = () => {
             <div className="metric-content">
               <h3>Manual Churn Prediction</h3>
               <form onSubmit={handleSubmit} className="manual-predict-form">
-                <select name="gender" value={form.gender} onChange={handleChange} required>
-                  <option value="">Gender</option>
-                  {genderOptions.map(opt => <option key={opt} value={opt}>{opt}</option>)}
-                </select>
-                <input name="tenure" type="number" min="0" placeholder="Tenure (months)" value={form.tenure} onChange={handleChange} required />
-                <input name="MonthlyCharges" type="number" min="0" step="0.01" placeholder="Monthly Charges" value={form.MonthlyCharges} onChange={handleChange} required />
-                <select name="Contract" value={form.Contract} onChange={handleChange} required>
-                  <option value="">Contract</option>
-                  {contractOptions.map(opt => <option key={opt} value={opt}>{opt}</option>)}
-                </select>
-                <select name="SeniorCitizen" value={form.SeniorCitizen} onChange={handleChange} required>
-                  <option value="">Senior Citizen</option>
-                  <option value="0">No</option>
-                  <option value="1">Yes</option>
-                </select>
-                <select name="Partner" value={form.Partner} onChange={handleChange} required>
-                  <option value="">Partner</option>
-                  {yesNoOptions.map(opt => <option key={opt} value={opt}>{opt}</option>)}
-                </select>
-                <select name="Dependents" value={form.Dependents} onChange={handleChange} required>
-                  <option value="">Dependents</option>
-                  {yesNoOptions.map(opt => <option key={opt} value={opt}>{opt}</option>)}
-                </select>
-                <select name="PhoneService" value={form.PhoneService} onChange={handleChange} required>
-                  <option value="">Phone Service</option>
-                  {yesNoOptions.map(opt => <option key={opt} value={opt}>{opt}</option>)}
-                </select>
-                <select name="InternetService" value={form.InternetService} onChange={handleChange} required>
-                  <option value="">Internet Service</option>
-                  {internetOptions.map(opt => <option key={opt} value={opt}>{opt}</option>)}
-                </select>
+                <div className="form-section">
+                  <h4>Customer Info</h4>
+                  <div className="form-grid">
+                    <select name="gender" value={form.gender} onChange={handleChange} required className="glass-input">
+                      <option value="">Gender</option>
+                      {genderOptions.map(opt => <option key={opt} value={opt}>{opt}</option>)}
+                    </select>
+                    <select name="SeniorCitizen" value={form.SeniorCitizen} onChange={handleChange} required className="glass-input">
+                      <option value="">Senior Citizen</option>
+                      <option value="0">No</option>
+                      <option value="1">Yes</option>
+                    </select>
+                    <select name="Partner" value={form.Partner} onChange={handleChange} required className="glass-input">
+                      <option value="">Partner</option>
+                      {yesNoOptions.map(opt => <option key={opt} value={opt}>{opt}</option>)}
+                    </select>
+                    <select name="Dependents" value={form.Dependents} onChange={handleChange} required className="glass-input">
+                      <option value="">Dependents</option>
+                      {yesNoOptions.map(opt => <option key={opt} value={opt}>{opt}</option>)}
+                    </select>
+                  </div>
+                </div>
+
+                <div className="form-section">
+                  <h4>Service & Billing</h4>
+                  <div className="form-grid">
+                    <input name="tenure" type="number" min="0" placeholder="Tenure (months)" value={form.tenure} onChange={handleChange} required className="glass-input" />
+                    <input name="MonthlyCharges" type="number" min="0" step="0.01" placeholder="Monthly Charges ($)" value={form.MonthlyCharges} onChange={handleChange} required className="glass-input" />
+                    <select name="PhoneService" value={form.PhoneService} onChange={handleChange} required className="glass-input">
+                      <option value="">Phone Service</option>
+                      {yesNoOptions.map(opt => <option key={opt} value={opt}>{opt}</option>)}
+                    </select>
+                    <select name="InternetService" value={form.InternetService} onChange={handleChange} required className="glass-input">
+                      <option value="">Internet Service</option>
+                      {internetOptions.map(opt => <option key={opt} value={opt}>{opt}</option>)}
+                    </select>
+                    <select name="Contract" value={form.Contract} onChange={handleChange} required className="glass-input">
+                      <option value="">Contract</option>
+                      {contractOptions.map(opt => <option key={opt} value={opt}>{opt}</option>)}
+                    </select>
+                  </div>
+                </div>
+
                 <button type="submit" disabled={loading} className="predict-btn">
-                  {loading ? 'Predicting...' : 'Predict'}
+                  {loading ? 'Analyzing...' : 'Predict Churn Risk'}
                 </button>
               </form>
               {predictError && <div className="error" style={{ marginTop: 8 }}>{predictError}</div>}
