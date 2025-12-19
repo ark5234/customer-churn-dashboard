@@ -3,98 +3,30 @@ import React from 'react';
 import { useData } from '../../context/DataContext';
 import { useNavigate } from 'react-router-dom';
 import { FaUsers, FaUserTimes, FaPercentage, FaDollarSign, FaClock, FaChartPie, FaChartBar, FaArrowUp, FaArrowDown, FaBullseye, FaBolt, FaChartLine } from 'react-icons/fa';
+import { motion } from 'framer-motion';
 import '../../App.css';
 import DashboardHero from './DashboardHero';
 
-// Inlined ChurnInsights component
-const ChurnInsights = ({ metrics }) => {
-  const churnInsights = [
-    {
-      label: 'Avg Monthly Charges (Churned)',
-      value: `$${metrics.monthlyChargesChurned}`,
-      trend: 'up'
-    },
-    {
-      label: 'Avg Monthly Charges (Retained)',
-      value: `$${metrics.monthlyChargesRetained}`,
-      trend: 'down'
-    },
-    {
-      label: 'Avg Tenure (Churned)',
-      value: `${metrics.tenureChurned} months`,
-      trend: 'down'
-    },
-    {
-      label: 'Avg Tenure (Retained)',
-      value: `${metrics.tenureRetained} months`,
-      trend: 'up'
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1
     }
-  ];
-  return (
-    <div className="churn-insights-grid">
-      {churnInsights.map((insight, index) => (
-        <div key={index} className={`churn-insight-card ${insight.trend}`}>
-          <h4>{insight.label}</h4>
-          <div className="insight-value">
-            {insight.trend === 'up' ? (
-              <FaArrowUp className="trend-up" />
-            ) : (
-              <FaArrowDown className="trend-down" />
-            )}
-            {insight.value}
-          </div>
-        </div>
-      ))}
-    </div>
-  );
+  }
 };
 
-// Inlined MainMetrics component
-const MainMetrics = ({ metrics }) => {
-  const mainMetrics = [
-    {
-      id: 'customers',
-      label: 'Total Customers',
-      value: metrics.totalCustomers?.toLocaleString?.() ?? metrics.totalCustomers,
-      icon: <FaUsers />, color: 'var(--primary-color)'
-    },
-    {
-      id: 'churnRate',
-      label: 'Churn Rate',
-      value: `${metrics.churnRate}%`,
-      icon: <FaChartLine />, color: 'var(--warning-color)'
-    },
-    {
-      id: 'accuracy',
-      label: 'Model Accuracy',
-      value: `${metrics.modelAccuracy ?? '--'}%`,
-      icon: <FaBullseye />, color: 'var(--success-color)'
-    },
-    {
-      id: 'performance',
-      label: 'Runtime Improvement',
-      value: `${metrics.runtimeImprovement ?? '--'}%`,
-      icon: <FaBolt />, color: 'var(--secondary-color)'
+const itemVariants = {
+  hidden: { y: 20, opacity: 0 },
+  visible: {
+    y: 0,
+    opacity: 1,
+    transition: {
+      type: "spring",
+      stiffness: 100
     }
-  ];
-  return (
-    <div className="main-metrics-grid">
-      {mainMetrics.map(metric => (
-        <div
-          key={metric.id}
-          className="main-metric-card"
-          style={{ '--metric-color': metric.color }}
-          data-tooltip={`View details about ${metric.label}`}
-        >
-          <div className="metric-icon">{metric.icon}</div>
-          <div className="metric-content">
-            <div className="metric-value">{metric.value}</div>
-            <div className="metric-label">{metric.label}</div>
-          </div>
-        </div>
-      ))}
-    </div>
-  );
+  }
 };
 
 const ChurnDashboard = () => {
@@ -104,11 +36,23 @@ const ChurnDashboard = () => {
   if (!data || data.length === 0) {
     return (
       <div className="dashboard-container centered-empty-state">
-        <div className="no-data-message">
+        <motion.div 
+          className="no-data-message"
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 0.5 }}
+        >
           <h2>No Data Available</h2>
           <p>Please upload a CSV file to view the Churn Analysis.</p>
-          <button className="upload-button" onClick={() => navigate('/upload')}>Upload Data</button>
-        </div>
+          <motion.button 
+            className="upload-button" 
+            onClick={() => navigate('/upload')}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            Upload Data
+          </motion.button>
+        </motion.div>
       </div>
     );
   }
@@ -154,20 +98,32 @@ const ChurnDashboard = () => {
   ];
 
   return (
-    <div className="dashboard-container">
-      <DashboardHero
-        totalCustomers={totalCustomers}
-        churned={churned}
-        churnRate={churnRate}
-        avgMonthlyCharges={avgMonthlyCharges}
-      />
+    <motion.div 
+      className="dashboard-container"
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
+    >
+      <motion.div variants={itemVariants}>
+        <DashboardHero
+          totalCustomers={totalCustomers}
+          churned={churned}
+          churnRate={churnRate}
+          avgMonthlyCharges={avgMonthlyCharges}
+        />
+      </motion.div>
+      
       {/* Graphs Section */}
       <div className="dashboard-section">
-        <div className="churn-analysis-visuals">
-          <div className="churn-donut-chart">
+        <motion.div className="churn-analysis-visuals" variants={itemVariants}>
+          <motion.div 
+            className="churn-donut-chart"
+            whileHover={{ scale: 1.05 }}
+            transition={{ type: "spring", stiffness: 300 }}
+          >
             <svg width="140" height="140" viewBox="0 0 140 140">
               <circle r="60" cx="70" cy="70" fill="none" stroke="#e5e7eb" strokeWidth="18" />
-              <circle
+              <motion.circle
                 r="60"
                 cx="70"
                 cy="70"
@@ -176,47 +132,71 @@ const ChurnDashboard = () => {
                 strokeWidth="18"
                 strokeDasharray={`${(churned / totalCustomers) * 377}, 377`}
                 transform="rotate(-90 70 70)"
+                initial={{ strokeDasharray: "0, 377" }}
+                animate={{ strokeDasharray: `${(churned / totalCustomers) * 377}, 377` }}
+                transition={{ duration: 1.5, ease: "easeOut" }}
               />
             </svg>
             <div className="churn-donut-label orange-text">{churnRate}%<br />Churned</div>
-          </div>
+          </motion.div>
+          
           <div className="churn-contract-bar">
             <h3><FaChartBar /> Churn by Contract Type</h3>
             <div className="contract-bar-chart">
-              {churnByContract.map(c => (
+              {churnByContract.map((c, i) => (
                 <div key={c.type} className="contract-bar-group">
                   <div className="contract-bar-label">{c.type}</div>
                   <div className="contract-bar-outer">
-                    <div className="contract-bar-inner" style={{ width: `${c.churnRate}%` }}></div>
+                    <motion.div 
+                      className="contract-bar-inner" 
+                      initial={{ width: 0 }}
+                      animate={{ width: `${c.churnRate}%` }}
+                      transition={{ duration: 1, delay: i * 0.2 }}
+                    ></motion.div>
                   </div>
                   <div className="contract-bar-value orange-text">{c.churnRate}%</div>
                 </div>
               ))}
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
 
       {/* Insights Section */}
       <div className="dashboard-section">
-        <div className="churn-key-insights">
+        <motion.div className="churn-key-insights" variants={itemVariants}>
           <h3 className="orange-text"><FaChartPie /> Key Insights</h3>
           <ul>
-            {insights.map((insight, i) => <li key={i}>{insight}</li>)}
+            {insights.map((insight, i) => (
+              <motion.li 
+                key={i}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.5 + (i * 0.1) }}
+              >
+                {insight}
+              </motion.li>
+            ))}
           </ul>
-        </div>
-        <div className="churn-top-factors">
+        </motion.div>
+        <motion.div className="churn-top-factors" variants={itemVariants}>
           <h3 className="teal-text">Top Factors Impacting Churn</h3>
           <div className="top-factors-list">
-            {topFactors.map(f => (
-              <div key={f.label} className="top-factor-item">
+            {topFactors.map((f, i) => (
+              <motion.div 
+                key={f.label} 
+                className="top-factor-item"
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.5 + (i * 0.1) }}
+              >
                 <span>{f.label}: <span className="teal-text">{f.value}%</span></span>
-              </div>
+              </motion.div>
             ))}
           </div>
-        </div>
+        </motion.div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Pie } from 'react-chartjs-2';
+import { Doughnut } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
   ArcElement,
@@ -20,40 +20,54 @@ const CustomerSegmentChart = ({ data }) => {
       {
         data: data?.values || [],
         backgroundColor: [
-          'rgba(255, 99, 132, 0.5)',
-          'rgba(54, 162, 235, 0.5)',
-          'rgba(255, 206, 86, 0.5)',
-          'rgba(75, 192, 192, 0.5)',
-          'rgba(153, 102, 255, 0.5)',
+          'rgba(99, 102, 241, 0.8)', // Indigo
+          'rgba(236, 72, 153, 0.8)', // Pink
+          'rgba(6, 182, 212, 0.8)',  // Cyan
+          'rgba(16, 185, 129, 0.8)', // Emerald
+          'rgba(245, 158, 11, 0.8)', // Amber
         ],
         borderColor: [
-          'rgb(255, 99, 132)',
-          'rgb(54, 162, 235)',
-          'rgb(255, 206, 86)',
-          'rgb(75, 192, 192)',
-          'rgb(153, 102, 255)',
+          '#6366f1',
+          '#ec4899',
+          '#06b6d4',
+          '#10b981',
+          '#f59e0b',
         ],
         borderWidth: 1,
+        hoverOffset: 4
       },
     ],
   };
 
   const options = {
     responsive: true,
+    cutout: '70%',
     plugins: {
       legend: {
         position: 'right',
+        labels: {
+            color: '#94a3b8',
+            font: {
+                family: "'Inter', sans-serif"
+            }
+        }
       },
       title: {
         display: true,
-        text: 'Customer Segments Distribution'
+        text: 'Customer Segments Distribution',
+        color: '#f8fafc',
+        font: {
+            size: 16,
+            family: "'Inter', sans-serif",
+            weight: 'normal'
+        }
       }
     }
   };
 
   return (
     <div className="chart-container">
-      <Pie data={chartData} options={options} />
+      <Doughnut data={chartData} options={options} />
     </div>
   );
 };

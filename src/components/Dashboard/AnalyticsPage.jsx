@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useData } from '../../context/DataContext';
 import { FaChartLine, FaUsers, FaMoneyBillWave, FaClock, FaArrowUp } from 'react-icons/fa';
+import { motion } from 'framer-motion';
 import './AnalyticsPage.css';
 // Import new analysis components
 import FeatureImpact from '../Analysis/sections/FeatureImpact';
@@ -32,7 +33,15 @@ const AnalyticsPage = () => {
   };
 
   if (isLoading) {
-    return <div className="loading">Loading...</div>;
+    return (
+      <div className="loading">
+        <motion.div
+          animate={{ rotate: 360 }}
+          transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+          style={{ width: 40, height: 40, border: "3px solid #f3f3f3", borderTop: "3px solid #3498db", borderRadius: "50%" }}
+        />
+      </div>
+    );
   }
 
   if (error) {
@@ -55,15 +64,64 @@ const AnalyticsPage = () => {
   const avgMonthlyCharges = (data.reduce((sum, customer) => sum + parseFloat(customer.monthly_charges), 0) / totalCustomers).toFixed(2);
   const avgTenure = (data.reduce((sum, customer) => sum + parseFloat(customer.tenure), 0) / totalCustomers).toFixed(1);
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: {
+        type: "spring",
+        stiffness: 100
+      }
+    }
+  };
+
+  const sectionVariants = {
+    hidden: { opacity: 0, y: 50 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: { duration: 0.6, ease: "easeOut" }
+    }
+  };
+
   return (
     <div className="analytics-page">
       <div className="analytics-header">
-        <h1 className="teal-text">Analytics Dashboard</h1>
-        <PDFDownload />
+        <motion.h1 
+          className="teal-text"
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          Analytics Dashboard
+        </motion.h1>
+        <motion.div
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <PDFDownload />
+        </motion.div>
       </div>
       
-      <div className="metrics-grid">
-        <div className="metric-card">
+      <motion.div 
+        className="metrics-grid"
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+      >
+        <motion.div className="metric-card" variants={itemVariants} whileHover={{ y: -5 }}>
           <div className="metric-icon">
             <FaUsers />
           </div>
@@ -71,9 +129,9 @@ const AnalyticsPage = () => {
             <h3>Total Customers</h3>
             <p className="metric-value">{totalCustomers}</p>
           </div>
-        </div>
+        </motion.div>
 
-        <div className="metric-card">
+        <motion.div className="metric-card" variants={itemVariants} whileHover={{ y: -5 }}>
           <div className="metric-icon">
             <FaChartLine />
           </div>
@@ -81,9 +139,9 @@ const AnalyticsPage = () => {
             <h3>Churn Rate</h3>
             <p className="metric-value">{churnRate}%</p>
           </div>
-        </div>
+        </motion.div>
 
-        <div className="metric-card">
+        <motion.div className="metric-card" variants={itemVariants} whileHover={{ y: -5 }}>
           <div className="metric-icon">
             <FaMoneyBillWave />
           </div>
@@ -91,9 +149,9 @@ const AnalyticsPage = () => {
             <h3>Avg Monthly Charges</h3>
             <p className="metric-value">${avgMonthlyCharges}</p>
           </div>
-        </div>
+        </motion.div>
 
-        <div className="metric-card">
+        <motion.div className="metric-card" variants={itemVariants} whileHover={{ y: -5 }}>
           <div className="metric-icon">
             <FaClock />
           </div>
@@ -101,48 +159,52 @@ const AnalyticsPage = () => {
             <h3>Avg Tenure</h3>
             <p className="metric-value">{avgTenure} months</p>
           </div>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
 
       <div className="analytics-sections">
-        <div className="analytics-section">
-          <FeatureImpact />
-        </div>
-        <div className="analytics-section">
-          <DemographicBreakdown />
-        </div>
-        <div className="analytics-section">
-          <ServicesAnalysis />
-        </div>
-        <div className="analytics-section">
-          <CommunicationImpact />
-        </div>
-        <div className="analytics-section">
-          <TenureAnalysis />
-        </div>
-        <div className="analytics-section">
-          <BillingAnalysis />
-        </div>
-        <div className="analytics-section">
-          <PaymentAnalysis />
-        </div>
-        <div className="analytics-section">
-          <ContractAnalysis />
-        </div>
-        <div className="analytics-section">
-          <SegmentExplorer />
-        </div>
-        <div className="analytics-section">
-          <InsightsSummary />
-        </div>
+        {[
+          FeatureImpact,
+          DemographicBreakdown,
+          ServicesAnalysis,
+          CommunicationImpact,
+          TenureAnalysis,
+          BillingAnalysis,
+          PaymentAnalysis,
+          ContractAnalysis,
+          SegmentExplorer,
+          InsightsSummary
+        ].map((Component, index) => (
+          <motion.div 
+            key={index}
+            className="analytics-section"
+            variants={sectionVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+          >
+            <Component />
+          </motion.div>
+        ))}
       </div>
+      
       {showScrollUp && (
-        <button className="scroll-up-btn" onClick={handleScrollUp} title="Scroll to top">
+        <motion.button 
+          className="scroll-up-btn" 
+          onClick={handleScrollUp} 
+          title="Scroll to top"
+          initial={{ opacity: 0, scale: 0.5 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.5 }}
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+        >
           <FaArrowUp className="scroll-up-arrow" />
-        </button>
+        </motion.button>
       )}
     </div>
   );
 };
 
-export default AnalyticsPage; 
+export default AnalyticsPage;
+ 
